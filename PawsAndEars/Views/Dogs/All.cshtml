@@ -1,0 +1,22 @@
+﻿@using PawsAndEars.Models;
+@model IEnumerable<Dog>
+
+@{
+    ViewBag.Title = "All Dogs";
+}
+
+<h2>Ваши собаки</h2>
+@{ 
+    foreach (Dog dog in Model)
+    {
+        <div>
+            <h5>@dog.Name</h5>
+            <p>@dog.User.Name</p>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Add dog", "Add")
+    </div>
+}
+
+
