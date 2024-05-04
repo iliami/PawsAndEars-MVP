@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PawsAndEars
+namespace PawsAndEars.Models
 {
     public class Disease
     {
@@ -12,5 +12,10 @@ namespace PawsAndEars
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
+
+        public Disease()
+        {
+            
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PawsAndEars
+namespace PawsAndEars.Models
 {
     public class Food
     {
@@ -14,5 +14,10 @@ namespace PawsAndEars
         public double CaloriesPer100g { get; set; }
         public double Weight { get; set; }
         public decimal Price { get; set; }
+
+        public Food()
+        {
+            
+        }
     }
 }
