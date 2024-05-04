@@ -32,11 +32,10 @@ namespace PawsAndEars.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Add(Dog dog)
+        public ActionResult Add(Dog dog)
         {
             repo.Save(dog);
-            var dogs = await repo.GetAll();
-            return View("All", dogs);
+            return RedirectToAction("GetAll");
         }
     }
 }
