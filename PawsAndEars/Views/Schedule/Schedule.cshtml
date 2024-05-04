@@ -1,0 +1,98 @@
+﻿@model (IEnumerable<PawsAndEars.Models.ScheduleTimeInterval> schedule, string date)
+
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2 class="text-align-center">Расписание</h2>
+<div class="flex-btns">
+    @{
+        if (Model.schedule.Count() > 0)
+        {
+            @Html.ActionLink(
+                linkText: "⇚",
+                actionName: "Schedule",
+                controllerName: "Schedule",
+                routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
+                htmlAttributes: null)
+            @Html.ActionLink(
+                linkText: "⇛",
+                actionName: "Schedule",
+                controllerName: "Schedule",
+                routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
+                htmlAttributes: null)
+        }
+        else
+        {
+            if (Convert.ToDateTime(Model.date) >= DateTime.Today)
+            {
+                @Html.ActionLink(
+                    linkText: "⇚",
+                    actionName: "Schedule",
+                    controllerName: "Schedule",
+                    routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
+                    htmlAttributes: null)
+            }
+            if (Convert.ToDateTime(Model.date) <= DateTime.Today)
+            {
+                @Html.ActionLink(
+                    linkText: "⇛",
+                    actionName: "Schedule",
+                    controllerName: "Schedule",
+                    routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
+                    htmlAttributes: null)
+            }
+        }
+    }
+
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Start Time
+        </th>
+        <th>
+            End Time
+        </th>
+        <th>
+            Activity Name
+        </th>
+        <th>
+            Activity Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.schedule)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dog.Name)
+            </td>
+            <td>
+                @item.StartActivityTime.ToShortTimeString()
+            </td>
+            <td>
+                @item.EndActivityTime.ToShortTimeString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

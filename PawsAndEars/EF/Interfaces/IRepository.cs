@@ -12,5 +12,6 @@ namespace PawsAndEars.EF.Interfaces
         void Save(T entity);
         Task<IEnumerable<T>> GetAll();
         Task<T> Get(int id);
+        void Update(int id, T entity);
     }
 }

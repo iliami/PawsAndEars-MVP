@@ -139,10 +139,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DogsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="EF\AppDbContext.cs" />
     <Compile Include="EF\DbInitializer.cs" />
     <Compile Include="EF\Interfaces\IRepository.cs" />
     <Compile Include="EF\Repositories\DogRepository.cs" />
+    <Compile Include="EF\Repositories\ScheduleRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -154,6 +156,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="NinjectModules\AppDbContextModule.cs" />
     <Compile Include="NinjectModules\DogsRepositoryModule.cs" />
+    <Compile Include="NinjectModules\ScheduleRepositoryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +211,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Dogs\All.cshtml" />
     <Content Include="Views\Dogs\Add.cshtml" />
+    <Content Include="Views\Schedule\Schedule.cshtml" />
+    <Content Include="Views\Schedule\Create.cshtml" />
+    <Content Include="Views\Schedule\Edit.cshtml" />
+    <Content Include="Views\Schedule\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

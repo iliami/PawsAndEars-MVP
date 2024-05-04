@@ -15,14 +15,21 @@ namespace PawsAndEars
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "home/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { controller = "Schedule" }
             );
 
             routes.MapRoute(
                 name: "Dogs",
                 url: "dogs/{action}",
                 defaults: new { controller = "Dogs", action = "GetAll" }
+            );
+
+            routes.MapRoute(
+                name: "Schedule",
+                url: "schedule/{action}",
+                defaults: new { controller = "Schedule", action = "Schedule" }
             );
         }
     }

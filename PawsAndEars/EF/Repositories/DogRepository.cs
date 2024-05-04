@@ -34,7 +34,19 @@ namespace PawsAndEars.EF.Repositories
             db.SaveChanges();
         }
 
-        protected void Dispose(bool disposing)
+        public void Update(int id, Dog entity)
+        {
+            var entityToUpdate = db.Dogs.FirstOrDefault(x => x.Id == id);
+            entityToUpdate.Age = entity.Age;
+            entityToUpdate.User = entity.User;
+            entityToUpdate.Id = id;
+            entityToUpdate.Breed = entity.Breed;
+            entityToUpdate.Length = entity.Length;
+            // TODO
+            db.SaveChanges();
+        }
+
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {
