@@ -43,7 +43,7 @@ namespace PawsAndEars.EF
             };
 
             context.Diseases.Add(disease);
-            context.Breeds.Add(breeds);
+            context.Breeds.AddRange(breeds);
             context.Foods.Add(food);
             context.Trainings.Add(training);
             context.Users.Add(user);
