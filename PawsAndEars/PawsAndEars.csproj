@@ -153,6 +153,11 @@
     <Compile Include="EF\Models\ScheduleTimeInterval.cs" />
     <Compile Include="EF\Models\Training.cs" />
     <Compile Include="EF\Models\User.cs" />
+    <Compile Include="Models\Dog.cs" />
+    <Compile Include="Models\Food.cs" />
+    <Compile Include="Models\Interfaces\IActivity.cs" />
+    <Compile Include="Models\ScheduleTimeInterval.cs" />
+    <Compile Include="Models\Training.cs" />
     <Compile Include="NinjectModules\AppDbContextModule.cs" />
     <Compile Include="NinjectModules\DogsRepositoryModule.cs" />
     <Compile Include="NinjectModules\ScheduleRepositoryModule.cs" />
@@ -215,9 +220,7 @@
     <Content Include="Views\Schedule\Edit.cshtml" />
     <Content Include="Views\Schedule\Delete.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
