@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PawsAndEars.EF;
 
-namespace PawsAndEars.Models
+namespace PawsAndEars.EF.Models
 {
     public class User
     {
@@ -21,10 +21,6 @@ namespace PawsAndEars.Models
         public DateTime StartWorkingTime { get; set; }
         public DateTime EndWorkingTime { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
-
-        public User()
-        {
-        }
 
         public IEnumerable<ScheduleTimeInterval> GetSchedule()
         {

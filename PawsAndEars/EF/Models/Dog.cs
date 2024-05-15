@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PawsAndEars.Models
+namespace PawsAndEars.EF.Models
 {
     public class Dog
     {
@@ -19,10 +19,5 @@ namespace PawsAndEars.Models
         public int UserId { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<ScheduleTimeInterval> ScheduleTimeIntervals { get; set; }
-
-        public Dog()
-        {
-            
-        }
     }
 }

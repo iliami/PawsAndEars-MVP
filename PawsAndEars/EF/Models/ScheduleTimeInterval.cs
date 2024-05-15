@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PawsAndEars.Models
+namespace PawsAndEars.EF.Models
 {
     public class ScheduleTimeInterval
     {
@@ -14,11 +14,7 @@ namespace PawsAndEars.Models
         public DateTime StartActivityTime { get; set; }
         public DateTime EndActivityTime { get; set; }
         public string ActivityName { get; set; }
-        public int ActivityId { get; set; }
-
-        public ScheduleTimeInterval()
-        {
-            
-        }
+        public int FoodId { get; set; }
+        public int TrainingId { get; set; }
     }
 }

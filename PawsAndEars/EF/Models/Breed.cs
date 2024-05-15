@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PawsAndEars.Models
+namespace PawsAndEars.EF.Models
 {
     public class Breed
     {
