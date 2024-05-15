@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using PawsAndEars.EF.Interfaces;
-using PawsAndEars.Models;
+using PawsAndEars.EF.Models;
 
 namespace PawsAndEars.EF.Repositories
 {
@@ -46,7 +46,8 @@ namespace PawsAndEars.EF.Repositories
             entityToUpdate.StartActivityTime = entity.StartActivityTime;
             entityToUpdate.EndActivityTime = entity.EndActivityTime;
             entityToUpdate.ActivityName = entity.ActivityName;
-            entityToUpdate.ActivityId = entity.ActivityId;
+            entityToUpdate.FoodId = entity.FoodId;
+            entityToUpdate.TrainingId = entity.TrainingId;
             entityToUpdate.DogId = entity.DogId;
 
             db.SaveChanges();

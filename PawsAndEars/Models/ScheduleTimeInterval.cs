@@ -8,12 +8,12 @@ namespace PawsAndEars.Models
 {
     public class ScheduleTimeInterval
     {
-        public int DogId { get; set; }
-        public virtual Dog Dog { get; set; }
+        public int Id { get; set; }
+        public string DogName { get; set; }
         public DateTime StartActivityTime { get; set; }
         public DateTime EndActivityTime { get; set; }
         public string ActivityName { get; set; }
         public int ActivityId { get; set; }
-        public IActivity Activity { get; set; }
+        public string ActivityNameDescription { get; set; }
     }
 }

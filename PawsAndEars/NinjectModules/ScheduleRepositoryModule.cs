@@ -13,7 +13,7 @@ namespace PawsAndEars.NinjectModules
     {
         public override void Load()
         {
-            Bind<IRepository<ScheduleTimeInterval>>().To<ScheduleRepository>();
+            Bind<IRepository<EF.Models.ScheduleTimeInterval>>().To<ScheduleRepository>();
         }
     }
 }

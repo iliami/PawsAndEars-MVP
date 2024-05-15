@@ -14,7 +14,7 @@ namespace PawsAndEars.EF.Models
         public DateTime StartActivityTime { get; set; }
         public DateTime EndActivityTime { get; set; }
         public string ActivityName { get; set; }
-        public int FoodId { get; set; }
-        public int TrainingId { get; set; }
+        public int? FoodId { get; set; }
+        public int? TrainingId { get; set; }
     }
 }

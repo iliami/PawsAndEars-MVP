@@ -65,7 +65,7 @@
             Activity Name
         </th>
         <th>
-            Activity Description
+            Activity Name + Description
         </th>
         <th></th>
     </tr>
@@ -74,7 +74,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Dog.Name)
+                @Html.DisplayFor(modelItem => item.DogName)
             </td>
             <td>
                 @item.StartActivityTime.ToShortTimeString()
@@ -86,7 +86,7 @@
                 @Html.DisplayFor(modelItem => item.ActivityName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ActivityId)
+                @Html.DisplayFor(modelItem => item.ActivityNameDescription)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

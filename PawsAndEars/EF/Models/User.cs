@@ -11,6 +11,10 @@ namespace PawsAndEars.EF.Models
     {
         private readonly AppDbContext context;
 
+        public User()
+        {
+        }
+
         public User(AppDbContext appDbContext)
         {
             context = appDbContext;

@@ -7,14 +7,15 @@ using System.Web.Mvc;
 using PawsAndEars.EF;
 using PawsAndEars.EF.Interfaces;
 using PawsAndEars.Models;
+using PawsAndEars.EF.Models;
 
 namespace PawsAndEars.Controllers
 {
     public class DogsController : Controller
     {
-        private readonly IRepository<Dog> repo;
+        private readonly IRepository<EF.Models.Dog> repo;
 
-        public DogsController(IRepository<Dog> dogRepository)
+        public DogsController(IRepository<EF.Models.Dog> dogRepository)
         {
             repo = dogRepository;
         }
@@ -22,7 +23,18 @@ namespace PawsAndEars.Controllers
         // GET: Dogs
         public async Task<ActionResult> GetAll()
         {
-            var dogs = await repo.GetAll();
+            var repoDogs = await repo.GetAll();
+            IEnumerable<Models.Dog> dogs = repoDogs.Select(
+                d => new Models.Dog() 
+                { 
+                    Name = d.Name, 
+                    BreedName = d.Breed.Name, 
+                    Age = d.Age, 
+                    Length = d.Length, 
+                    Weight = d.Weight, 
+                    UserId = d.UserId, 
+                    Diseases = d.Diseases.Select(dis => dis.Name) 
+                });
             return View("All", dogs);
         }
 
@@ -32,7 +44,7 @@ namespace PawsAndEars.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Add(Dog dog)
+        public ActionResult Add(EF.Models.Dog dog)
         {
             repo.Save(dog);
             return RedirectToAction("GetAll");

@@ -9,10 +9,12 @@
 @{ 
     foreach (Dog dog in Model)
     {
-        <div>
-            <h5>@dog.Name</h5>
-            <p>@dog.User.Name</p>
-        </div>
+    <div>
+        <h5>@dog.Name</h5>
+        <p>@dog.Weight</p>
+        <p>@dog.Length</p>
+        <p>@dog.Age</p>
+    </div>
     }
     <div>
         @Html.ActionLink("Add dog", "Add")

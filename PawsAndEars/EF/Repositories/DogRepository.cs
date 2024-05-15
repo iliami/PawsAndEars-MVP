@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using PawsAndEars.EF.Interfaces;
-using PawsAndEars.Models;
+using PawsAndEars.EF.Models;
 
 namespace PawsAndEars.EF.Repositories
 {
@@ -25,7 +25,7 @@ namespace PawsAndEars.EF.Repositories
 
         public async Task<IEnumerable<Dog>> GetAll()
         {
-            return await db.Dogs.Include(d => d.User).ToListAsync();
+            return await db.Dogs.Include(d => d.User).Include(d => d.Breed).Include(d => d.Diseases).ToListAsync();
         }
 
         public void Save(Dog entity)

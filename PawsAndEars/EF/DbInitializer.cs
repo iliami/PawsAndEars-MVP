@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using PawsAndEars.Models;
+using PawsAndEars.EF.Models;
 
 namespace PawsAndEars.EF
 {
@@ -34,12 +34,12 @@ namespace PawsAndEars.EF
             
             List<ScheduleTimeInterval> schedule = new List<ScheduleTimeInterval>
             {
-                new ScheduleTimeInterval() { Id = 1, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Food", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + 8*60*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 15)*60*1000*10000L) }
-            ,   new ScheduleTimeInterval() { Id = 2, Dog = dogs[1], DogId = dogs[1].Id, ActivityName = "Food", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 5)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 15)*60*1000*10000L) }
-            ,   new ScheduleTimeInterval() { Id = 3, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Training", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 30)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (10*60 + 30)*60*1000*10000L) }
-            ,   new ScheduleTimeInterval() { Id = 4, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Food", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (24+8)*60*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 15)*60*1000*10000L) }
-            ,   new ScheduleTimeInterval() { Id = 5, Dog = dogs[1], DogId = dogs[1].Id, ActivityName = "Food", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 5)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 15)*60*1000*10000L) }
-            ,   new ScheduleTimeInterval() { Id = 6, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Training", ActivityId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 30)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+10)*60 + 30)*60*1000*10000L) }
+                new ScheduleTimeInterval() { Id = 1, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Food", FoodId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + 8*60*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 15)*60*1000*10000L) }
+            ,   new ScheduleTimeInterval() { Id = 2, Dog = dogs[1], DogId = dogs[1].Id, ActivityName = "Food", FoodId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 5)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 15)*60*1000*10000L) }
+            ,   new ScheduleTimeInterval() { Id = 3, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Training", TrainingId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (8*60 + 30)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + (10*60 + 30)*60*1000*10000L) }
+            ,   new ScheduleTimeInterval() { Id = 4, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Food", FoodId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + (24+8)*60*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 15)*60*1000*10000L) }
+            ,   new ScheduleTimeInterval() { Id = 5, Dog = dogs[1], DogId = dogs[1].Id, ActivityName = "Food", FoodId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 5)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 15)*60*1000*10000L) }
+            ,   new ScheduleTimeInterval() { Id = 6, Dog = dogs[0], DogId = dogs[0].Id, ActivityName = "Training", TrainingId = 1, StartActivityTime = new DateTime(DateTime.Today.Ticks + ((24+8)*60 + 30)*60*1000*10000L), EndActivityTime = new DateTime(DateTime.Today.Ticks + ((24+10)*60 + 30)*60*1000*10000L) }
             };
 
             context.Diseases.Add(disease);
