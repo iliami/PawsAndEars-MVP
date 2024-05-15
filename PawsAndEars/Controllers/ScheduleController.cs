@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PawsAndEars.EF.Repositories;
 using PawsAndEars.Models;
 using PawsAndEars.EF.Models;
+using Ninject.Infrastructure.Language;
 
 
 namespace PawsAndEars.Controllers
@@ -23,23 +24,27 @@ namespace PawsAndEars.Controllers
             trainingRepo = trainingRepository;
         }
 
-        // GET: Schedule/{date?}
-        public ActionResult Schedule(string date)
+        // GET: Schedule/ByDate{date?}
+        public async Task<ActionResult> ByDate(string date)
         {
             if (date == null) date = DateTime.Today.ToShortDateString();
-            var repoSchedule = repo.GetByDate(date);
-            IEnumerable<Models.ScheduleTimeInterval> schedule = repoSchedule.Select(
-                i => new Models.ScheduleTimeInterval() 
-                { 
+            var repoSchedule = repo.GetByDate(date).ToList();
+            List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
+            foreach (var i in repoSchedule)
+            {
+                var item = new Models.ScheduleTimeInterval()
+                {
                     Id = i.Id,
-                    DogName = i.Dog.Name, 
+                    DogName = i.Dog.Name,
                     StartActivityTime = i.StartActivityTime,
-                    EndActivityTime = i.EndActivityTime, 
-                    ActivityName = i.ActivityName, 
+                    EndActivityTime = i.EndActivityTime,
+                    ActivityName = i.ActivityName,
                     ActivityId = (int)(i.FoodId ?? i.TrainingId),
-                    ActivityNameDescription = (i.FoodId != null) ? foodRepo.Get((int)i.FoodId).Result.Name + "\n" + foodRepo.Get((int)i.FoodId).Result.Description : trainingRepo.Get((int)i.TrainingId).Result.Name + "\n" + trainingRepo.Get((int)i.TrainingId).Result.Description
-                });
-            return View((schedule, date));
+                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get((int)i.FoodId)).Name + "\n" + (await foodRepo.Get((int)i.FoodId)).Description : (await trainingRepo.Get((int)i.TrainingId)).Name + "\n" + (await trainingRepo.Get((int)i.TrainingId)).Description
+                };
+                schedule.Add(item);
+            }
+            return View("Schedule", (schedule.ToEnumerable(), date));
         }
 
         // GET: Schedule/Create

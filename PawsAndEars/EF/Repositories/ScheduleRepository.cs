@@ -19,7 +19,7 @@ namespace PawsAndEars.EF.Repositories
 
         public async Task<ScheduleTimeInterval> Get(int id)
         {
-            return await db.ScheduleTimeIntervals.FirstOrDefaultAsync(interval => interval.Id == id);
+            return await db.ScheduleTimeIntervals.AsNoTracking().FirstOrDefaultAsync(interval => interval.Id == id);
         }
 
         public async Task<IEnumerable<ScheduleTimeInterval>> GetAll()
@@ -38,7 +38,8 @@ namespace PawsAndEars.EF.Repositories
                 .ToList()
                 .Where(interval => interval.StartActivityTime.ToShortDateString() == date)
                 .OrderBy(interval => interval.StartActivityTime)
-                .OrderBy(interval => interval.EndActivityTime);
+                .OrderBy(interval => interval.EndActivityTime)
+                .ToList();
         }
         public void Update(int id, ScheduleTimeInterval entity)
         {

@@ -12,13 +12,13 @@
             @Html.ActionLink(
                 linkText: "⇚",
                 actionName: "Schedule",
-                controllerName: "Schedule",
+                controllerName: "ByDate",
                 routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
                 htmlAttributes: null)
             @Html.ActionLink(
                 linkText: "⇛",
                 actionName: "Schedule",
-                controllerName: "Schedule",
+                controllerName: "ByDate",
                 routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
                 htmlAttributes: null)
         }
@@ -29,7 +29,7 @@
                 @Html.ActionLink(
                     linkText: "⇚",
                     actionName: "Schedule",
-                    controllerName: "Schedule",
+                    controllerName: "ByDate",
                     routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
                     htmlAttributes: null)
             }
@@ -38,7 +38,7 @@
                 @Html.ActionLink(
                     linkText: "⇛",
                     actionName: "Schedule",
-                    controllerName: "Schedule",
+                    controllerName: "ByDate",
                     routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
                     htmlAttributes: null)
             }

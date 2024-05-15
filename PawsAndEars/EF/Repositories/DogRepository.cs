@@ -20,7 +20,7 @@ namespace PawsAndEars.EF.Repositories
 
         public async Task<Dog> Get(int id)
         {
-            return await db.Dogs.FirstOrDefaultAsync(x => x.Id == id);
+            return await db.Dogs.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Dog>> GetAll()

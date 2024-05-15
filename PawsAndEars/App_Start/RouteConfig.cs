@@ -28,7 +28,7 @@ namespace PawsAndEars
             routes.MapRoute(
                 name: "Schedule",
                 url: "schedule/{action}",
-                defaults: new { controller = "Schedule", action = "Schedule" }
+                defaults: new { controller = "Schedule", action = "ByDate" }
             );
         }
     }
