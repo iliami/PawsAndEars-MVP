@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PawsAndEars.EF.Models
+namespace PawsAndEars.EF.Entities
 {
     public class Dog
     {

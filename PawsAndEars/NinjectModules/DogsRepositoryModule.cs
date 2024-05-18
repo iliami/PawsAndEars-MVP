@@ -13,7 +13,7 @@ namespace PawsAndEars.NinjectModules
     {
         public override void Load()
         {
-            Bind<IRepository<EF.Models.Dog>>().To<DogRepository>();
+            Bind<IRepository<EF.Entities.Dog>>().To<DogRepository>();
         }
     }
 }

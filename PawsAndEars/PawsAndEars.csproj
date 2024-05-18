@@ -173,13 +173,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="EF\Models\Breed.cs" />
-    <Compile Include="EF\Models\Disease.cs" />
-    <Compile Include="EF\Models\Dog.cs" />
-    <Compile Include="EF\Models\Food.cs" />
-    <Compile Include="EF\Models\ScheduleTimeInterval.cs" />
-    <Compile Include="EF\Models\Training.cs" />
-    <Compile Include="EF\Models\User.cs" />
+    <Compile Include="EF\Entities\Breed.cs" />
+    <Compile Include="EF\Entities\Disease.cs" />
+    <Compile Include="EF\Entities\Dog.cs" />
+    <Compile Include="EF\Entities\Food.cs" />
+    <Compile Include="EF\Entities\ScheduleTimeInterval.cs" />
+    <Compile Include="EF\Entities\Training.cs" />
+    <Compile Include="EF\Entities\User.cs" />
     <Compile Include="Models\Dog.cs" />
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\Interfaces\IActivity.cs" />

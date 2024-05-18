@@ -1,5 +1,5 @@
 ﻿using PawsAndEars.EF.Interfaces;
-using PawsAndEars.EF.Models;
+using PawsAndEars.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

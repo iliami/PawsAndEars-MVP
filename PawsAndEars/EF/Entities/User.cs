@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PawsAndEars.EF;
 
-namespace PawsAndEars.EF.Models
+namespace PawsAndEars.EF.Entities
 {
     public class User
     {
