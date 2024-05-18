@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using PawsAndEars.EF.Interfaces;
-using PawsAndEars.EF.Models;
+using PawsAndEars.EF.Entities;
 
 namespace PawsAndEars.EF.Repositories
 {

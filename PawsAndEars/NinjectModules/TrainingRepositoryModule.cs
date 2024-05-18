@@ -12,7 +12,7 @@ namespace PawsAndEars.NinjectModules
     {
         public override void Load()
         {
-            Bind<IRepository<EF.Models.Training>>().To<TrainingRepository>();
+            Bind<IRepository<EF.Entities.Training>>().To<TrainingRepository>();
         }
     }
 }

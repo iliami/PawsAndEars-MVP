@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using PawsAndEars.EF.Models;
+using PawsAndEars.EF.Entities;
 
 namespace PawsAndEars.EF
 {

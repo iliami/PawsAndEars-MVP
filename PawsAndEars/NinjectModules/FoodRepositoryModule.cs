@@ -12,7 +12,7 @@ namespace PawsAndEars.NinjectModules
     {
         public override void Load()
         {
-            Bind<IRepository<EF.Models.Food>>().To<FoodRepository>();
+            Bind<IRepository<EF.Entities.Food>>().To<FoodRepository>();
         }
     }
 }

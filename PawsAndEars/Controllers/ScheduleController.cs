@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PawsAndEars.EF.Repositories;
 using PawsAndEars.Models;
-using PawsAndEars.EF.Models;
+using PawsAndEars.EF.Entities;
 using Ninject.Infrastructure.Language;
 
 
@@ -55,7 +55,7 @@ namespace PawsAndEars.Controllers
 
         // POST: Schedule/Create
         [HttpPost]
-        public ActionResult Create(EF.Models.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Create(EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace PawsAndEars.Controllers
 
         // POST: Schedule/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, EF.Models.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Edit(int id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
             try
             {

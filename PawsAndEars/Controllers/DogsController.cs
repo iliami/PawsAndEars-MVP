@@ -7,15 +7,15 @@ using System.Web.Mvc;
 using PawsAndEars.EF;
 using PawsAndEars.EF.Interfaces;
 using PawsAndEars.Models;
-using PawsAndEars.EF.Models;
+using PawsAndEars.EF.Entities;
 
 namespace PawsAndEars.Controllers
 {
     public class DogsController : Controller
     {
-        private readonly IRepository<EF.Models.Dog> repo;
+        private readonly IRepository<EF.Entities.Dog> repo;
 
-        public DogsController(IRepository<EF.Models.Dog> dogRepository)
+        public DogsController(IRepository<EF.Entities.Dog> dogRepository)
         {
             repo = dogRepository;
         }
@@ -44,7 +44,7 @@ namespace PawsAndEars.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Add(EF.Models.Dog dog)
+        public ActionResult Add(EF.Entities.Dog dog)
         {
             repo.Save(dog);
             return RedirectToAction("GetAll");
