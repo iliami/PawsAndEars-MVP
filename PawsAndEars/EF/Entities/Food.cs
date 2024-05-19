@@ -14,5 +14,6 @@ namespace PawsAndEars.EF.Entities
         public double CaloriesPer100g { get; set; }
         public double Weight { get; set; }
         public decimal Price { get; set; }
+        public ICollection<ScheduleTimeInterval> ScheduleTimeIntervals { get; set; }
     }
 }

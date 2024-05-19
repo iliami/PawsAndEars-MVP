@@ -20,7 +20,7 @@ namespace PawsAndEars.EF
                 new Breed() { Id = 3, Name = "AAA", MealsPerDay = 4, WalkingMinutesPerDay=180}
             };
 
-            User user = new User() { Id = 1, Name = "Joe", StartWorkingTime = new DateTime(2024, 1, 1, 8, 0, 0), EndWorkingTime = new DateTime(2024, 1, 1, 17, 0, 0) };
+            User user = new User() { StartWorkingTime = new DateTime(2024, 1, 1, 8, 0, 0), EndWorkingTime = new DateTime(2024, 1, 1, 17, 0, 0) };
 
             List<Dog> dogs = new List<Dog>() 
             {
