@@ -8,17 +8,21 @@ using PawsAndEars.EF.Repositories;
 using PawsAndEars.Models;
 using PawsAndEars.EF.Entities;
 using Ninject.Infrastructure.Language;
+using Microsoft.AspNet.Identity;
 
 
 namespace PawsAndEars.Controllers
 {
+    [Authorize]
     public class ScheduleController : Controller
     {
+        private DogRepository dogRepo;
         private ScheduleRepository repo;
         private FoodRepository foodRepo;
         private TrainingRepository trainingRepo;
-        public ScheduleController(ScheduleRepository scheduleRepository, FoodRepository foodRepository, TrainingRepository trainingRepository)
+        public ScheduleController(DogRepository dogRepository, ScheduleRepository scheduleRepository, FoodRepository foodRepository, TrainingRepository trainingRepository)
         {
+            dogRepo = dogRepository;
             repo = scheduleRepository;
             foodRepo = foodRepository;
             trainingRepo = trainingRepository;
@@ -27,6 +31,7 @@ namespace PawsAndEars.Controllers
         // GET: Schedule/ByDate{date?}
         public async Task<ActionResult> ByDate(string date)
         {
+            if (!(await dogRepo.GetAll()).Any(d => d.UserId.ToString() == User.Identity.GetUserId())) throw new Exception("vffv");
             if (date == null) date = DateTime.Today.ToShortDateString();
             var repoSchedule = repo.GetByDate(date).ToList();
             List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();

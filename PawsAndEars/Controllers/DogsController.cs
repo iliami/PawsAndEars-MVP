@@ -11,6 +11,7 @@ using PawsAndEars.EF.Entities;
 
 namespace PawsAndEars.Controllers
 {
+    [Authorize]
     public class DogsController : Controller
     {
         private readonly IRepository<EF.Entities.Dog> repo;
