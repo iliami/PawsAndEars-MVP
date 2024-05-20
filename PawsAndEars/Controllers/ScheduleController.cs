@@ -8,17 +8,21 @@ using PawsAndEars.EF.Repositories;
 using PawsAndEars.Models;
 using PawsAndEars.EF.Entities;
 using Ninject.Infrastructure.Language;
+using Microsoft.AspNet.Identity;
 
 
 namespace PawsAndEars.Controllers
 {
+    [Authorize]
     public class ScheduleController : Controller
     {
+        private DogRepository dogRepo;
         private ScheduleRepository repo;
         private FoodRepository foodRepo;
         private TrainingRepository trainingRepo;
-        public ScheduleController(ScheduleRepository scheduleRepository, FoodRepository foodRepository, TrainingRepository trainingRepository)
+        public ScheduleController(DogRepository dogRepository, ScheduleRepository scheduleRepository, FoodRepository foodRepository, TrainingRepository trainingRepository)
         {
+            dogRepo = dogRepository;
             repo = scheduleRepository;
             foodRepo = foodRepository;
             trainingRepo = trainingRepository;
@@ -27,6 +31,7 @@ namespace PawsAndEars.Controllers
         // GET: Schedule/ByDate{date?}
         public async Task<ActionResult> ByDate(string date)
         {
+            if (!(await dogRepo.GetAll()).Any(d => d.UserId.ToString() == User.Identity.GetUserId())) throw new Exception("vffv");
             if (date == null) date = DateTime.Today.ToShortDateString();
             var repoSchedule = repo.GetByDate(date).ToList();
             List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
@@ -39,8 +44,8 @@ namespace PawsAndEars.Controllers
                     StartActivityTime = i.StartActivityTime,
                     EndActivityTime = i.EndActivityTime,
                     ActivityName = i.ActivityName,
-                    ActivityId = (int)(i.FoodId ?? i.TrainingId),
-                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get((int)i.FoodId)).Name + "\n" + (await foodRepo.Get((int)i.FoodId)).Description : (await trainingRepo.Get((int)i.TrainingId)).Name + "\n" + (await trainingRepo.Get((int)i.TrainingId)).Description
+                    ActivityId = (i.FoodId ?? i.TrainingId),
+                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get(i.FoodId)).Name + "\n" + (await foodRepo.Get(i.FoodId)).Description : (await trainingRepo.Get(i.TrainingId)).Name + "\n" + (await trainingRepo.Get(i.TrainingId)).Description
                 };
                 schedule.Add(item);
             }
@@ -70,14 +75,14 @@ namespace PawsAndEars.Controllers
         }
 
         // GET: Schedule/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             return View();
         }
 
         // POST: Schedule/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Edit(string id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
             try
             {

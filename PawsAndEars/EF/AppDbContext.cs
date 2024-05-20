@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PawsAndEars.EF.Entities;
 
 namespace PawsAndEars.EF
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Disease> Diseases { get; set; }
@@ -25,5 +25,11 @@ namespace PawsAndEars.EF
         public AppDbContext(string connectionString)
             : base(connectionString)
         { }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Dog>().HasOptional(d => d.Diseases);
+        }
     }
 }

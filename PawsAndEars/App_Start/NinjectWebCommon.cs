@@ -64,7 +64,8 @@ namespace PawsAndEars.App_Start
         {
             var appDbContextModule = new AppDbContextModule("DefaultConnection");
             var dogRepositoryModule = new DogsRepositoryModule();
-            kernel.Load(appDbContextModule, dogRepositoryModule);
+            var breedRepositoryModule = new BreedRepositoryModule();
+            kernel.Load(appDbContextModule, dogRepositoryModule, breedRepositoryModule);
         }
     }
 }

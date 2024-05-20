@@ -18,7 +18,7 @@ namespace PawsAndEars.EF.Repositories
             this.db = db;
         }
 
-        public async Task<Dog> Get(int id)
+        public async Task<Dog> Get(string id)
         {
             return await db.Dogs.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -34,7 +34,7 @@ namespace PawsAndEars.EF.Repositories
             db.SaveChanges();
         }
 
-        public void Update(int id, Dog entity)
+        public void Update(string id, Dog entity)
         {
             var entityToUpdate = db.Dogs.FirstOrDefault(x => x.Id == id);
             entityToUpdate.Age = entity.Age;
@@ -42,7 +42,9 @@ namespace PawsAndEars.EF.Repositories
             entityToUpdate.Id = id;
             entityToUpdate.Breed = entity.Breed;
             entityToUpdate.Length = entity.Length;
-            // TODO
+            entityToUpdate.BreedId = entity.BreedId;
+            entityToUpdate.UserId = entity.UserId;
+            entityToUpdate.Diseases = entity.Diseases;
             db.SaveChanges();
         }
 
