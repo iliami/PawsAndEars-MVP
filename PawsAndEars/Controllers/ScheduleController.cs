@@ -44,8 +44,8 @@ namespace PawsAndEars.Controllers
                     StartActivityTime = i.StartActivityTime,
                     EndActivityTime = i.EndActivityTime,
                     ActivityName = i.ActivityName,
-                    ActivityId = (int)(i.FoodId ?? i.TrainingId),
-                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get((int)i.FoodId)).Name + "\n" + (await foodRepo.Get((int)i.FoodId)).Description : (await trainingRepo.Get((int)i.TrainingId)).Name + "\n" + (await trainingRepo.Get((int)i.TrainingId)).Description
+                    ActivityId = (i.FoodId ?? i.TrainingId),
+                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get(i.FoodId)).Name + "\n" + (await foodRepo.Get(i.FoodId)).Description : (await trainingRepo.Get(i.TrainingId)).Name + "\n" + (await trainingRepo.Get(i.TrainingId)).Description
                 };
                 schedule.Add(item);
             }
@@ -75,14 +75,14 @@ namespace PawsAndEars.Controllers
         }
 
         // GET: Schedule/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             return View();
         }
 
         // POST: Schedule/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Edit(string id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
             try
             {

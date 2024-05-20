@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer.Utilities;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -52,6 +53,17 @@ namespace PawsAndEars.Controllers
             }
             ModelState.AddModelError("", "Invalid username or password");
             return View(login);
+        }
+
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
         }
 
         //

@@ -18,7 +18,7 @@ namespace PawsAndEars.EF.Repositories
             this.db = db;
         }
 
-        public async Task<Training> Get(int id)
+        public async Task<Training> Get(string id)
         {
             return await db.Trainings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -33,7 +33,7 @@ namespace PawsAndEars.EF.Repositories
             throw new NotImplementedException();
         }
 
-        public void Update(int id, Training entity)
+        public void Update(string id, Training entity)
         {
             throw new NotImplementedException();
         }

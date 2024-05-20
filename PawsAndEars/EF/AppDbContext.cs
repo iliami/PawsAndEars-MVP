@@ -17,13 +17,19 @@ namespace PawsAndEars.EF
         public DbSet<Training> Trainings { get; set; }
         public DbSet<ScheduleTimeInterval> ScheduleTimeIntervals { get; set; }
 
-        //static AppDbContext()
-        //{
-        //    Database.SetInitializer<AppDbContext>(new DbInitializer());
-        //}
+        static AppDbContext()
+        {
+            Database.SetInitializer<AppDbContext>(new DbInitializer());
+        }
 
         public AppDbContext(string connectionString)
             : base(connectionString)
         { }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Dog>().HasOptional(d => d.Diseases);
+        }
     }
 }
