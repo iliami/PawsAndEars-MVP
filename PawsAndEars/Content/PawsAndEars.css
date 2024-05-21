@@ -1,0 +1,60 @@
+﻿.btn-border-radius {
+    border-radius: 15cm;
+    padding: 1rem, 12rex;
+}
+
+.btn-text {
+    font-size: 30px;
+}
+
+.btn-banner {
+    background-color: antiquewhite;
+}
+
+.bg-test {
+    background-color: aqua;
+}
+
+.align-item {
+    align-items: center;
+}
+
+.dog-image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.pt-45 {
+    padding-top: 45px;
+}
+
+.text-footer {
+    font-size: large;
+    font-weight: 600;
+}
+
+.text-end {
+    font-size: medium;
+    font-weight: 300;
+}
+
+.center-aligment {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.flex-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+table tr {
+    height: 41px;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: rgb(255, 249, 237);
+}
+/* Input buttons */
