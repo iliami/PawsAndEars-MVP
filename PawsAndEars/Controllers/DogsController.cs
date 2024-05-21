@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace PawsAndEars.Controllers
 {
-    [Authorize]
+    
     public class DogsController : Controller
     {
         private readonly AppDbContext db;
@@ -26,6 +26,7 @@ namespace PawsAndEars.Controllers
         }
 
         // GET: Dogs
+        [Authorize]
         public ActionResult GetAll()
         {
             var repoDogs = db.Dogs.ToList().Where(d => d.UserId.ToString() == User.Identity.GetUserId());
@@ -50,11 +51,13 @@ namespace PawsAndEars.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Add()
         {
             return View();
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Add(Models.Dog dog)
         {
             var d = new EF.Entities.Dog()
@@ -92,6 +95,11 @@ namespace PawsAndEars.Controllers
                 }
             }
             return RedirectToAction("GetAll");
+        }
+
+        public ActionResult GetAllBreeds()
+        {
+            return View("AllBreeds");
         }
     }
 }

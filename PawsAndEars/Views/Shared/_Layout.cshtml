@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/PawsandEars.css")
 </head>
 <body>
     <section class="mb-4 btn-banner">
@@ -22,10 +21,6 @@
                     @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
                 </div>
                 <div class="col-xxl-1 col-sm-1">
-                </div>
-                <div class="col-xxl-2 col-sm-2">
-                    @*<a href="" class="nav-link nav-link-new">Зоомагазин</a>*@
-                    @Html.ActionLink("Зоомагазин", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
                 </div>
                 <div class="col-xxl-1 bg-test col-sm-1">
                 </div>
@@ -53,10 +48,10 @@
             </div>
             <div class="row justify-content-center m-4">
                 <div class="col">
-                    Породы собак
+                    @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
                 </div>
                 <div class="col">
-                    Составить рацион
+                    Составить рацион - А КАК Я ЕГО СОСТАВЛЮ ПО ТВОЕМУ
                 </div>
             </div>
             <div class="row justify-content-center m-4">
