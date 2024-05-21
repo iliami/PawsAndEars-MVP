@@ -6,33 +6,74 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Styles.Render("~/Content/PawsandEars.css")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+    <section class="mb-4 btn-banner">
+        <div class="container p-4">
+            <div class="row align-item">
+                <div class="col-xxl-1 col-sm-2">
+                    <a href="">
+                        <img src="~/Content/images/Logo.png" alt="LOGO">
+                    </a>
+                </div>
+                <div class="col-xxl-2 col-sm-1">
+                    @*<a href="" class="nav-link nav-link-new">Лапы и уши</a>*@
+                    @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
+                </div>
+                <div class="col-xxl-1 col-sm-1">
+                </div>
+                <div class="col-xxl-2 col-sm-2">
+                    @*<a href="" class="nav-link nav-link-new">Зоомагазин</a>*@
+                    @Html.ActionLink("Зоомагазин", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
+                </div>
+                <div class="col-xxl-1 bg-test col-sm-1">
+                </div>
+                <div class="col-xxl-3 col-sm-3">
+                    @*<a href="" class="nav-link nav-link-new">Мои питомцы</a>*@
+                    @*@Html.ActionLink("Мои питомцы", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })*@
+                    @Html.ActionLink("Мои питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                </div>
+                <div class="col-xxl-2 col-sm-2">
+                    <button type="button" class="btn btn-outline-warning btn-border-radius py-1 btn-text">Войти</button>
+                </div>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </section>
+    <section>
+        <div class="container p-3">
+            @RenderBody()
+        </div>
+    </section>
+
+    <section class="m-2">
+        <div class="container text-footer text-center">
+            <div class="d-flex p-2 border-top border-bottom justify-content-center">
+                Обращайте внимание на то, какой образ жизни необходим той или иной породе собаки.
+            </div>
+            <div class="row justify-content-center m-4">
+                <div class="col">
+                    Породы собак
+                </div>
+                <div class="col">
+                    Составить рацион
+                </div>
+            </div>
+            <div class="row justify-content-center m-4">
+                <div class="col">
+                    Мои питомцы
+                </div>
+                <div class="col">
+                    Составить расписание занятий
+                </div>
+            </div>
+        </div>
+        <div class="container text-end">
+            ©2024 Paws and Ears | All Rights Reserved
+        </div>
+
+    </section>
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
