@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,58 +21,65 @@
                     @*<a href="" class="nav-link nav-link-new">Лапы и уши</a>*@
                     @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
                 </div>
-                <div class="col-xxl-1 col-sm-1">
-                </div>
-                <div class="col-xxl-1 bg-test col-sm-1">
-                </div>
-                <div class="col-xxl-3 col-sm-3">
-                    @*<a href="" class="nav-link nav-link-new">Мои питомцы</a>*@
-                    @*@Html.ActionLink("Мои питомцы", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })*@
-                    @Html.ActionLink("Мои питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
-                </div>
-                <div class="col-xxl-2 col-sm-2">
-                    <button type="button" class="btn btn-outline-warning btn-border-radius py-1 btn-text">Войти</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section>
-        <div class="container p-3">
-            @RenderBody()
-        </div>
-    </section>
 
-    <section class="m-2">
-        <div class="container text-footer text-center">
-            <div class="d-flex p-2 border-top border-bottom justify-content-center">
-                Обращайте внимание на то, какой образ жизни необходим той или иной породе собаки.
-            </div>
-            <div class="row justify-content-center m-4">
-                <div class="col">
+                <div class="col-xxl-3 col-sm-3">
                     @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
                 </div>
-                <div class="col">
-                    Составить рацион - А КАК Я ЕГО СОСТАВЛЮ ПО ТВОЕМУ
+
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="col-xxl-3 col-sm-3">
+                        @Html.ActionLink("Питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                    <div class="col-xxl-3 col-sm-3">
+                        @Html.ActionLink("Расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                }
+                @Html.Partial("_LoginPartial")
+            </div>
+                </div>
+        </section>
+        <section>
+            <div class="container p-3">
+                @RenderBody()
+            </div>
+        </section>
+
+        <section class="m-2">
+            <div class="container text-footer text-center">
+                <div class="d-flex p-2 border-top border-bottom justify-content-center">
+                    Обращайте внимание на то, какой образ жизни необходим той или иной породе собаки.
+                </div>
+                <div class="row justify-content-center m-4">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link nav-link-new" })
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="row justify-content-center m-4">
-                <div class="col">
-                    Мои питомцы
-                </div>
-                <div class="col">
-                    Составить расписание занятий
-                </div>
+            <div class="container text-end">
+                ©2024 Paws and Ears | All Rights Reserved
             </div>
-        </div>
-        <div class="container text-end">
-            ©2024 Paws and Ears | All Rights Reserved
-        </div>
 
-    </section>
+        </section>
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
