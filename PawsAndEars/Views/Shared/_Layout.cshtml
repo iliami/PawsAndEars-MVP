@@ -12,26 +12,24 @@
     <section class="mb-4 btn-banner">
         <div class="container p-4">
             <div class="row align-item">
-                <div class="col-xxl-1 col-sm-2">
-                    <a href="">
+                <div class="col-xxl-2 col-sm-2">
+                    <a href="" style="display:inline-block">
                         <img src="~/Content/images/Logo.png" alt="LOGO">
                     </a>
-                </div>
-                <div class="col-xxl-2 col-sm-1">
                     @*<a href="" class="nav-link nav-link-new">Лапы и уши</a>*@
-                    @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new" })
+                    @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new", @style = "display: inline-block;" })
                 </div>
 
-                <div class="col-xxl-3 col-sm-3">
+                <div class="col-xxl-2 col-sm-2">
                     @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
                 </div>
 
                 @if (Request.IsAuthenticated)
                 {
-                    <div class="col-xxl-3 col-sm-3">
+                    <div class="col-xxl-2 col-sm-2">
                         @Html.ActionLink("Питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
                     </div>
-                    <div class="col-xxl-3 col-sm-3">
+                    <div class="col-xxl-2 col-sm-2">
                         @Html.ActionLink("Расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })
                     </div>
                 }

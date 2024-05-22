@@ -1,17 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "col-xxl-2 col-sm-2 row" }))
         {
             @Html.AntiForgeryToken()
-                <div class="col-xxl-3 col-sm-3">
-                    @Html.ActionLink("Здравствуйте, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "btn btn-outline-warning btn-border-radius py-1 btn-text" })
-                </div>
-                <div class="col-xxl-3 col-sm-3"><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></div>
+                <a href="javascript:document.getElementById('logoutForm').submit()"><div class="btn btn-outline-warning btn-border-radius py-1 btn-text">Выход</div></a>
         }
     }
     else
     {
-            <div class="col-xxl-3 col-sm-3">@Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-outline-warning btn-border-radius py-1 btn-text" })</div>
-            <div class="col-xxl-3 col-sm-3">@Html.ActionLink("Войти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-outline-warning btn-border-radius py-1 btn-text" })</div>
+            <div class="col-xxl-3 col-sm-2">@Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-outline-warning btn-border-radius py-1 btn-text" })</div>
+            <div class="col-xxl-3 col-sm-2">@Html.ActionLink("Войти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-outline-warning btn-border-radius py-1 btn-text" })</div>
     }

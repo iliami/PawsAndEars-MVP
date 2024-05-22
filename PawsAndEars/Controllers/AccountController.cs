@@ -40,7 +40,7 @@ namespace PawsAndEars.Controllers
                 var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager>();
                 var authManager = HttpContext.GetOwinContext().Authentication;
 
-                User user = userManager.Find(login.UserName, login.Password);
+                User user = userManager.Find(login.Email, login.Password);
                 if (user != null)
                 {
                     var ident = userManager.CreateIdentity(user,
