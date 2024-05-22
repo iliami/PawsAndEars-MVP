@@ -10,37 +10,37 @@
         if (Model.schedule.Count() > 0)
         {
             @Html.ActionLink(
-                linkText: "⇚",
-                actionName: "ByDate",
-                controllerName: "Schedule",
-                routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
-                htmlAttributes: null)
+                         linkText: "⇚",
+                         actionName: "ByDate",
+                         controllerName: "Schedule",
+                         routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
+                         htmlAttributes: null)
             @Html.ActionLink(
-                linkText: "⇛",
-                actionName: "ByDate",
-                controllerName: "Schedule",
-                routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
-                htmlAttributes: null)
+                         linkText: "⇛",
+                         actionName: "ByDate",
+                         controllerName: "Schedule",
+                         routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
+                         htmlAttributes: null)
         }
         else
         {
             if (Convert.ToDateTime(Model.date) >= DateTime.Today)
             {
                 @Html.ActionLink(
-                    linkText: "⇚",
-                    actionName: "ByDate",
-                    controllerName: "Schedule",
-                    routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
-                    htmlAttributes: null)
+                             linkText: "⇚",
+                             actionName: "ByDate",
+                             controllerName: "Schedule",
+                             routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(-1).ToShortDateString() },
+                             htmlAttributes: null)
             }
             if (Convert.ToDateTime(Model.date) <= DateTime.Today)
             {
                 @Html.ActionLink(
-                    linkText: "⇛",
-                    actionName: "ByDate",
-                    controllerName: "Schedule",
-                    routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
-                    htmlAttributes: null)
+                             linkText: "⇛",
+                             actionName: "ByDate",
+                             controllerName: "Schedule",
+                             routeValues: new { date = Convert.ToDateTime(Model.date).AddDays(1).ToShortDateString() },
+                             htmlAttributes: null)
             }
         }
     }

@@ -25,7 +25,12 @@ namespace PawsAndEars.EF.Repositories
 
         public async Task<IEnumerable<Dog>> GetAll()
         {
-            return await db.Dogs.Include(d => d.User).Include(d => d.Breed).Include(d => d.Diseases).ToListAsync();
+            return await db.Dogs
+                .Include(d => d.User)
+                .Include(d => d.Breed)
+                //.Include(d => d.Diseases)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public void Save(Dog entity)

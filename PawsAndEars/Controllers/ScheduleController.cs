@@ -31,7 +31,8 @@ namespace PawsAndEars.Controllers
         // GET: Schedule/ByDate{date?}
         public async Task<ActionResult> ByDate(string date)
         {
-            if (!(await dogRepo.GetAll()).Any(d => d.UserId.ToString() == User.Identity.GetUserId())) throw new Exception("vffv");
+            //var dogs = await dogRepo.GetAll();
+            //if (!(dogs.Any(d => d.UserId.ToString() == User.Identity.GetUserId()))) return View("");
             if (date == null) date = DateTime.Today.ToShortDateString();
             var repoSchedule = repo.GetByDate(date).ToList();
             List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
