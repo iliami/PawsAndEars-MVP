@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,36 +7,88 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+    <section class="mb-4 btn-banner">
+        <div class="container p-4">
+            <div class="row align-item">
+                <div class="col-xxl-1 col-sm-1">
+                    <a href="" style="display:inline-block">
+                        <img src="~/Content/images/Logo.png" alt="LOGO">
+                    </a>
+                    @*<a href="" class="nav-link nav-link-new">Лапы и уши</a>*@
+
+                </div>
+                <div class="col-xxl-2 col-sm-2">
+                    @Html.ActionLink("Лапы и уши", "Index", "Home", null, new { @class = "nav-link nav-link-new", @style = "display: inline-block;" })
+                </div>
+
+                
+
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="col-xxl-2 col-sm-2">
+                        @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                    <div class="col-xxl-2 col-sm-2">
+                        @Html.ActionLink("Питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                    <div class="col-xxl-3 col-sm-2">
+                        @Html.ActionLink("Расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                }
+                else
+                {
+                    <div class="col-xxl-1 col-sm-1"></div>
+                    <div class="col-xxl-2 col-sm-2">
+                        @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                    </div>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+                </div>
+        </section>
+        <section>
+            <div class="container p-3">
+                @RenderBody()
+            </div>
+        </section>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        <section class="m-2">
+            <div class="container text-footer text-center">
+                <div class="d-flex p-2 border-top border-bottom justify-content-center">
+                    Обращайте внимание на то, какой образ жизни необходим той или иной породе собаки.
+                </div>
+                <div class="row justify-content-center m-4">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Питомцы", "GetAll", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Породы собак", "GetAllBreeds", "Dogs", null, new { @class = "nav-link nav-link-new" })
+                        </div>
+                        <div class="col-xxl-3 col-sm-3">
+                            @Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link nav-link-new" })
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="container text-end">
+                ©2024 Paws and Ears | All Rights Reserved
+            </div>
+
+        </section>
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

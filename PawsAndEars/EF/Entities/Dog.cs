@@ -15,7 +15,7 @@ namespace PawsAndEars.EF.Entities
         public int Age { get; set; }
         public double Weight { get; set; }
         public double Length { get; set; }
-        public virtual ICollection<Disease> Diseases { get; set; }
+        public virtual ICollection<Disease> Diseases { get; set; } = null;
         public string UserId { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<ScheduleTimeInterval> ScheduleTimeIntervals { get; set; }

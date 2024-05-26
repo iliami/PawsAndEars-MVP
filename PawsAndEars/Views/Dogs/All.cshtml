@@ -5,19 +5,29 @@
     ViewBag.Title = "All Dogs";
 }
 
-<h2>Ваши собаки</h2>
-@{ 
-    foreach (Dog dog in Model)
-    {
-    <div>
-        <h5>@dog.Name</h5>
-        <p>@dog.Weight</p>
-        <p>@dog.Length</p>
-        <p>@dog.Age</p>
-    </div>
+<h2>Ваши собаки </h2>
+<h2>@Html.ActionLink("Посмотреть расписание", "ByDate", "Schedule", null, new { @class = "nav-link nav-link-new" })</h2>
+<ul class="list-group">
+    @{
+
+        foreach (Dog dog in Model)
+        {
+            <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xl-3"><h4>@dog.Name</h4></div>
+                        <div class="col-xl-2">@dog.Weight</div>
+                        <div class="col-xl-2">@dog.Length</div>
+                        <div class="col-xl-2">@dog.Age</div>
+                        <div class="col-xl-3"></div>
+
+                    </div>
+            </li>
+        }
     }
+</ul>
+@{ 
     <div>
-        @Html.ActionLink("Add dog", "Add")
+        @Html.ActionLink("Add dog", "Add", "Dogs")
     </div>
 }
 

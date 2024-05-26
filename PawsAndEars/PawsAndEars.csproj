@@ -220,6 +220,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\images\Chihuahua.png" />
+    <Content Include="Content\images\GermanShepherdDog.png" />
+    <Content Include="Content\images\GermanWolfspitz.png" />
+    <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\Logo.png" />
+    <Content Include="Content\images\Yorkshire.jpg" />
     <Content Include="Content\PawsAndEars.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -263,6 +269,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Dogs\AllBreeds.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
