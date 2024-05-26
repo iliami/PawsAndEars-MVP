@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using PawsAndEars.EF;
+using PawsAndEars.EF.Interfaces;
 using PawsAndEars.Models;
 using PawsAndEars.EF.Entities;
 using Microsoft.AspNet.Identity;

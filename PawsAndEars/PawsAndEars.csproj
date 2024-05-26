@@ -172,6 +172,12 @@
     <Compile Include="EF\DbInitializer.cs" />
     <Compile Include="EF\Entities\Role.cs" />
     <Compile Include="EF\Entities\UserManager.cs" />
+    <Compile Include="EF\Interfaces\IRepository.cs" />
+    <Compile Include="EF\Repositories\BreedRepository.cs" />
+    <Compile Include="EF\Repositories\DogRepository.cs" />
+    <Compile Include="EF\Repositories\FoodRepository.cs" />
+    <Compile Include="EF\Repositories\ScheduleRepository.cs" />
+    <Compile Include="EF\Repositories\TrainingRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,6 +195,11 @@
     <Compile Include="Models\ScheduleTimeInterval.cs" />
     <Compile Include="Models\Training.cs" />
     <Compile Include="NinjectModules\AppDbContextModule.cs" />
+    <Compile Include="NinjectModules\BreedRepositoryModule.cs" />
+    <Compile Include="NinjectModules\DogsRepositoryModule.cs" />
+    <Compile Include="NinjectModules\FoodRepositoryModule.cs" />
+    <Compile Include="NinjectModules\ScheduleRepositoryModule.cs" />
+    <Compile Include="NinjectModules\TrainingRepositoryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
