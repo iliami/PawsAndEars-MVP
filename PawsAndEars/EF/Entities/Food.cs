@@ -15,5 +15,6 @@ namespace PawsAndEars.EF.Entities
         public double Weight { get; set; }
         public decimal Price { get; set; }
         public virtual ICollection<ScheduleTimeInterval> ScheduleTimeIntervals { get; set; }
+        public virtual ICollection<Dog> Dogs { get; set; }
     }
 }

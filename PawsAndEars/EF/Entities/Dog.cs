@@ -12,6 +12,8 @@ namespace PawsAndEars.EF.Entities
         public string Name { get; set; }
         public string BreedId { get; set; }
         public virtual Breed Breed { get; set; }
+        public string FoodId { get; set; }
+        public virtual Food Food { get; set; }
         public int Age { get; set; }
         public double Weight { get; set; }
         public double Length { get; set; }
