@@ -63,9 +63,9 @@ namespace PawsAndEars.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             var appDbContextModule = new AppDbContextModule("DefaultConnection");
-            var dogRepositoryModule = new DogsRepositoryModule();
-            var breedRepositoryModule = new BreedRepositoryModule();
-            kernel.Load(appDbContextModule, dogRepositoryModule, breedRepositoryModule);
+            var dogsServiceModule = new DogsServiceModule();
+            var scheduleServiceModule = new ScheduleServiceModule();
+            kernel.Load(appDbContextModule, dogsServiceModule, scheduleServiceModule);
         }
     }
 }

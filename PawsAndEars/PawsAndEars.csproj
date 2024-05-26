@@ -171,13 +171,7 @@
     <Compile Include="EF\AppDbContext.cs" />
     <Compile Include="EF\DbInitializer.cs" />
     <Compile Include="EF\Entities\Role.cs" />
-    <Compile Include="EF\Entities\UserManager.cs" />
-    <Compile Include="EF\Interfaces\IRepository.cs" />
-    <Compile Include="EF\Repositories\BreedRepository.cs" />
-    <Compile Include="EF\Repositories\DogRepository.cs" />
-    <Compile Include="EF\Repositories\FoodRepository.cs" />
-    <Compile Include="EF\Repositories\ScheduleRepository.cs" />
-    <Compile Include="EF\Repositories\TrainingRepository.cs" />
+    <Compile Include="Services\UserManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,19 +184,22 @@
     <Compile Include="EF\Entities\User.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\Dog.cs" />
-    <Compile Include="Models\Food.cs" />
-    <Compile Include="Models\Interfaces\IActivity.cs" />
     <Compile Include="Models\ScheduleTimeInterval.cs" />
-    <Compile Include="Models\Training.cs" />
     <Compile Include="NinjectModules\AppDbContextModule.cs" />
-    <Compile Include="NinjectModules\BreedRepositoryModule.cs" />
-    <Compile Include="NinjectModules\DogsRepositoryModule.cs" />
-    <Compile Include="NinjectModules\FoodRepositoryModule.cs" />
-    <Compile Include="NinjectModules\ScheduleRepositoryModule.cs" />
-    <Compile Include="NinjectModules\TrainingRepositoryModule.cs" />
+    <Compile Include="NinjectModules\DogsServiceModule.cs" />
+    <Compile Include="NinjectModules\ScheduleServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DogsService.cs" />
+    <Compile Include="Services\Interfaces\ICUDService.cs" />
+    <Compile Include="Services\Interfaces\IGettingService.cs" />
+    <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\DefaultConnection.mdf" />
+    <Content Include="App_Data\DefaultConnection_log.ldf">
+      <DependentUpon>DefaultConnection.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\HereTheData.txt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -260,16 +257,17 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Dogs\All.cshtml" />
-    <Content Include="Views\Dogs\Add.cshtml" />
     <Content Include="Views\Schedule\Schedule.cshtml" />
-    <Content Include="Views\Schedule\Create.cshtml" />
-    <Content Include="Views\Schedule\Edit.cshtml" />
-    <Content Include="Views\Schedule\Delete.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Dogs\AllBreeds.cshtml" />
+    <Content Include="Views\Dogs\Add.cshtml" />
+    <Content Include="Views\Schedule\Create.cshtml" />
+    <Content Include="Views\Schedule\Delete.cshtml" />
+    <Content Include="Views\Schedule\Edit.cshtml" />
+    <Content Include="Views\Dogs\Edit.cshtml" />
+    <Content Include="Views\Dogs\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
