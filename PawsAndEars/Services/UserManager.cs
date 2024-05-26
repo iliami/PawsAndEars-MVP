@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using PawsAndEars.EF;
+using PawsAndEars.EF.Entities;
 
-namespace PawsAndEars.EF.Entities
+namespace PawsAndEars.Services
 {
     public class UserManager : UserManager<User>
     {

@@ -8,10 +8,10 @@ namespace PawsAndEars.Services.Interfaces
 {
     public interface IService<TParameter, TResult> : 
         IGettingService<TResult>, 
-        ICreatingService<TParameter>
+        ICUDService<TParameter>
         where TParameter : class
         where TResult : class
     {
-
+        void Save();
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI.WebControls;
 using PawsAndEars.EF;
@@ -13,7 +15,7 @@ namespace PawsAndEars.Services
     public class ScheduleService : IService<Models.ScheduleTimeInterval, IEnumerable<Models.ScheduleTimeInterval>>
     {
         private AppDbContext context;
-        public ScheduleService() { context = new AppDbContext("DefaultConnection"); }
+        public ScheduleService(AppDbContext context) { this.context = context; }
         public void Create(string dogId, Models.ScheduleTimeInterval model)
         {
             Dog dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
@@ -62,6 +64,8 @@ namespace PawsAndEars.Services
             var dogs = context.Dogs.Where(d => d.UserId == userId);
             foreach (var dog in dogs)
             {
+                if (context.ScheduleTimeIntervals.ToList().Where(s => s.Dog == dog).Any()) continue;
+
                 var meals = dog.Breed.MealsPerDay;
                 var walkingMinutes = dog.Breed.WalkingMinutesPerDay;
                 List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes / 60);
@@ -98,19 +102,27 @@ namespace PawsAndEars.Services
                         });
                 }
 
+                context.ScheduleTimeIntervals.AddRange(scheduleTimeIntervals);
             }
         }
 
-        public IEnumerable<Models.ScheduleTimeInterval> Get(string dogId)
+        public void Delete(string stiId)
         {
-            var dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
-            var _sti = context.ScheduleTimeIntervals.Where(s => s.DogId == dogId);
+            var sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
+            context.ScheduleTimeIntervals.Remove(sti);
+            context.SaveChanges();
+        }
+
+        public IEnumerable<Models.ScheduleTimeInterval> Get(string userId)
+        {
+            var dogs = context.Dogs.Where(d => d.UserId == userId);
+            var _sti = context.ScheduleTimeIntervals.Include(s => s.Dog).Where(s => dogs.Contains(s.Dog)).ToList();
             var sti = _sti.Select(s =>
                 new Models.ScheduleTimeInterval
                 {
                     Id = s.Id,
                     DogId = s.DogId,
-                    DogName = dog.Name,
+                    DogName = s.Dog.Name,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
                     ActivityType = s.ActivityType,
@@ -121,6 +133,45 @@ namespace PawsAndEars.Services
                 }
             );
             return sti;
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        public void Update(string stiId, Models.ScheduleTimeInterval model)
+        {
+            var sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
+            var dog = context.Dogs.FirstOrDefault(d => d.Id == model.DogId);
+
+            (Food food, string foodId) = (null, null);
+            (Training training, string trainingId) = (null, null);
+            switch (model.ActivityType)
+            {
+                case "Food":
+                    {
+                        food = context.Foods.FirstOrDefault(f => f.Id == model.ActivityId);
+                        foodId = model.ActivityId;
+                        break;
+                    }
+                case "Training":
+                    {
+                        training = context.Trainings.FirstOrDefault(t => t.Id == model.ActivityId);
+                        trainingId = model.ActivityId;
+                        break;
+                    }
+            }
+
+            sti.DogId = model.DogId;
+            sti.Dog = dog;
+            sti.StartTime = model.StartTime;
+            sti.EndTime = model.EndTime;
+            sti.ActivityType = model.ActivityType;
+            sti.FoodId = foodId;
+            sti.Food = food;
+            sti.TrainingId = trainingId;
+            sti.Training = training;
         }
     }
 }

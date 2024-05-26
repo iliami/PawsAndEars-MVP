@@ -15,20 +15,20 @@
             <li class="list-group-item">
                     <div class="row">
                         <div class="col-xl-3"><h4>@dog.Name</h4></div>
-                        <div class="col-xl-2">@dog.Weight</div>
-                        <div class="col-xl-2">@dog.Length</div>
-                        <div class="col-xl-2">@dog.Age</div>
-                        <div class="col-xl-3"></div>
+                        <div class="col-xl-3">@dog.BreedName</div>
+                        <div class="col-xl-3">@dog.FoodString</div>
+                        <div class="col-xl-3">
+                                @Html.ActionLink("Edit", "Edit", new { id = dog.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = dog.Id })
+                        </div>
 
                     </div>
             </li>
         }
     }
 </ul>
-@{ 
-    <div>
-        @Html.ActionLink("Add dog", "Add", "Dogs")
-    </div>
-}
+<div>
+    @Html.ActionLink("Add dog", "Add", "Dogs")
+</div>
 
 

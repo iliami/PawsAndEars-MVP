@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using PawsAndEars.EF;
 using PawsAndEars.EF.Entities;
@@ -12,15 +15,15 @@ namespace PawsAndEars.Services
     {
         private AppDbContext context;
 
-        public DogsService()
+        public DogsService(AppDbContext context)
         {
-            context = new AppDbContext("DefaultConnection"); 
+            this.context = context; 
         }
 
         public void Create(string userId, Models.Dog model)
         {
             Breed breed = context.Breeds.FirstOrDefault(b => b.Name == model.BreedName);
-            Food food = context.Foods.FirstOrDefault(f => f.Id == model.FoodId);
+            Food food = context.Foods.FirstOrDefault(f => f.Id == model.FoodId) ?? context.Foods.ToList()[0];
             ICollection<Disease> diseases = null;
             if (model.Diseases != null) 
                 diseases = context.Diseases
@@ -51,6 +54,12 @@ namespace PawsAndEars.Services
             throw new NotImplementedException();
         }
 
+        public void Delete(string dogId)
+        {
+            var dog = context.Dogs.Include(d => d.ScheduleTimeIntervals).FirstOrDefault(d => d.Id == dogId);
+            context.Dogs.Remove(dog);
+        }
+
         public IEnumerable<Models.Dog> Get(string userId)
         {
             List<Dog> _dogs = context.Dogs
@@ -66,10 +75,38 @@ namespace PawsAndEars.Services
                 Age = d.Age,
                 Weight = d.Weight,
                 Length = d.Length,
-                Diseases = d.Diseases.Select(disease => disease.Name),
+                Diseases = (d.Diseases == null) ? null : d.Diseases.Select(disease => disease.Name),
                 UserId = userId
             });
             return dogs;
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        public void Update(string dogId, Models.Dog model)
+        {
+            var dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
+            var breed = context.Breeds.FirstOrDefault(b => b.Name == model.BreedName);
+            var food = context.Foods.FirstOrDefault(f => f.Id == model.FoodId);
+            ICollection<Disease> diseases = null;
+            if (model.Diseases != null)
+                diseases = context.Diseases
+                    .Where(d => model.Diseases.Contains(d.Name))
+                    .ToList();
+
+            dog.Name = model.Name;
+            dog.Breed = breed;
+            dog.BreedId = breed.Id;
+            dog.FoodId = model.FoodId;
+            dog.Food = food;
+            dog.Age = model.Age;
+            dog.Weight = model.Weight;
+            dog.Length = model.Length;
+            dog.Diseases = diseases;
+            dog.UserId = model.UserId;
         }
     }
 }

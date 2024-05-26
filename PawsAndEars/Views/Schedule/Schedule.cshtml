@@ -62,10 +62,7 @@
             End Time
         </th>
         <th>
-            Activity Name
-        </th>
-        <th>
-            Activity Name + Description
+            Activity Description
         </th>
         <th></th>
     </tr>
@@ -77,16 +74,13 @@
                 @Html.DisplayFor(modelItem => item.DogName)
             </td>
             <td>
-                @item.StartActivityTime.ToShortTimeString()
+                @item.StartTime.ToShortTimeString()
             </td>
             <td>
-                @item.EndActivityTime.ToShortTimeString()
+                @item.EndTime.ToShortTimeString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ActivityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityNameDescription)
+                @Html.DisplayFor(modelItem => item.ActivityString)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

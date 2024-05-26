@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace PawsAndEars.Services.Interfaces
 {
-    public interface ICreatingService<TParameter> 
+    public interface ICUDService<TParameter> 
         where TParameter : class
     {
         void Create(string id, TParameter value);
         void Create(string id);
+        void Update(string id, TParameter value);
+        void Delete(string id);
     }
 }

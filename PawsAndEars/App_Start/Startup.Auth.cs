@@ -5,8 +5,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using PawsAndEars.EF.Entities;
 using PawsAndEars.EF;
+using PawsAndEars.Services;
+using PawsAndEars.EF.Entities;
 
 [assembly: OwinStartup(typeof(PawsAndEars.App_Start.Startup))]
 

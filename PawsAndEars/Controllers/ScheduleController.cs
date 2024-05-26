@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using PawsAndEars.EF.Repositories;
-using PawsAndEars.Models;
-using PawsAndEars.EF.Entities;
-using Ninject.Infrastructure.Language;
 using Microsoft.AspNet.Identity;
+using Ninject.Infrastructure.Language;
+using PawsAndEars.Services.Interfaces;
 
 
 namespace PawsAndEars.Controllers
@@ -16,34 +13,19 @@ namespace PawsAndEars.Controllers
     [Authorize]
     public class ScheduleController : Controller
     {
-        public ScheduleController()
+        private IService<Models.ScheduleTimeInterval, IEnumerable<Models.ScheduleTimeInterval>> scheduleService;
+        public ScheduleController(IService<Models.ScheduleTimeInterval, IEnumerable<Models.ScheduleTimeInterval>> scheduleService)
         {
-            
+            this.scheduleService = scheduleService;
         }
 
         // GET: Schedule/ByDate{date?}
-        public async Task<ActionResult> ByDate(string date)
+        public ActionResult ByDate(string date)
         {
-            ////var dogs = await dogRepo.GetAll();
-            ////if (!(dogs.Any(d => d.UserId.ToString() == User.Identity.GetUserId()))) return View("");
-            //if (date == null) date = DateTime.Today.ToShortDateString();
-            //var repoSchedule = repo.GetByDate(date).ToList();
-            //List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
-            //foreach (var i in repoSchedule)
-            //{
-            //    var item = new Models.ScheduleTimeInterval()
-            //    {
-            //        Id = i.Id,
-            //        DogName = i.Dog.Name,
-            //        StartActivityTime = i.StartActivityTime,
-            //        EndActivityTime = i.EndActivityTime,
-            //        ActivityName = i.ActivityName,
-            //        ActivityId = (i.FoodId ?? i.TrainingId),
-            //        ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get(i.FoodId)).Name + "\n" + (await foodRepo.Get(i.FoodId)).Description : (await trainingRepo.Get(i.TrainingId)).Name + "\n" + (await trainingRepo.Get(i.TrainingId)).Description
-            //    };
-            //    schedule.Add(item);
-            //}
-            return View("Schedule");//, (schedule.ToEnumerable(), date));
+            if (date == null) date = DateTime.Today.ToShortDateString();
+            var scheduleFromDb = scheduleService.Get(User.Identity.GetUserId());
+            var schedule = scheduleFromDb.Where(s => s.StartTime.ToShortDateString() == date);
+            return View("Schedule", (schedule.ToEnumerable(), date));
         }
 
         // GET: Schedule/Create
@@ -54,18 +36,11 @@ namespace PawsAndEars.Controllers
 
         // POST: Schedule/Create
         [HttpPost]
-        public ActionResult Create(EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Create(Models.ScheduleTimeInterval scheduleTimeInterval)
         {
-            //try
-            //{
-            //    // TODO: Add insert logic here
-            //    repo.Save(scheduleTimeInterval);
-            return RedirectToAction("Schedule");
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
+            scheduleService.Create(User.Identity.GetUserId(), scheduleTimeInterval);
+            scheduleService.Save();
+            return RedirectToAction("ByDate");
         }
 
         // GET: Schedule/Edit/5
@@ -76,40 +51,26 @@ namespace PawsAndEars.Controllers
 
         // POST: Schedule/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
+        public ActionResult Edit(string id, Models.ScheduleTimeInterval scheduleTimeInterval)
         {
-            //try
-            //{
-            //    // TODO: Add update logic here
-            //    repo.Update(id, scheduleTimeInterval);
-            return RedirectToAction("Schedule");
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
+            scheduleService.Update(id, scheduleTimeInterval);
+            scheduleService.Save();
+            return RedirectToAction("ByDate");
         }
 
         // GET: Schedule/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             return View();
         }
 
         // POST: Schedule/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Schedule");
-            }
-            catch
-            {
-                return View();
-            }
+            scheduleService.Delete(id);
+            scheduleService.Save();
+            return RedirectToAction("ByDate");
         }
     }
 }

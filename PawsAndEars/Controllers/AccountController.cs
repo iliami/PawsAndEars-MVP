@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.SqlServer.Utilities;
-using System.Linq;
-using System.Net;
+﻿using System.Data.Entity.SqlServer.Utilities;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PawsAndEars.EF.Entities;
 using PawsAndEars.Models;
+using PawsAndEars.Services;
 
 namespace PawsAndEars.Controllers
 {
