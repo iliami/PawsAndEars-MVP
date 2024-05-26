@@ -16,41 +16,34 @@ namespace PawsAndEars.Controllers
     [Authorize]
     public class ScheduleController : Controller
     {
-        private DogRepository dogRepo;
-        private ScheduleRepository repo;
-        private FoodRepository foodRepo;
-        private TrainingRepository trainingRepo;
-        public ScheduleController(DogRepository dogRepository, ScheduleRepository scheduleRepository, FoodRepository foodRepository, TrainingRepository trainingRepository)
+        public ScheduleController()
         {
-            dogRepo = dogRepository;
-            repo = scheduleRepository;
-            foodRepo = foodRepository;
-            trainingRepo = trainingRepository;
+            
         }
 
         // GET: Schedule/ByDate{date?}
         public async Task<ActionResult> ByDate(string date)
         {
-            //var dogs = await dogRepo.GetAll();
-            //if (!(dogs.Any(d => d.UserId.ToString() == User.Identity.GetUserId()))) return View("");
-            if (date == null) date = DateTime.Today.ToShortDateString();
-            var repoSchedule = repo.GetByDate(date).ToList();
-            List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
-            foreach (var i in repoSchedule)
-            {
-                var item = new Models.ScheduleTimeInterval()
-                {
-                    Id = i.Id,
-                    DogName = i.Dog.Name,
-                    StartActivityTime = i.StartActivityTime,
-                    EndActivityTime = i.EndActivityTime,
-                    ActivityName = i.ActivityName,
-                    ActivityId = (i.FoodId ?? i.TrainingId),
-                    ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get(i.FoodId)).Name + "\n" + (await foodRepo.Get(i.FoodId)).Description : (await trainingRepo.Get(i.TrainingId)).Name + "\n" + (await trainingRepo.Get(i.TrainingId)).Description
-                };
-                schedule.Add(item);
-            }
-            return View("Schedule", (schedule.ToEnumerable(), date));
+            ////var dogs = await dogRepo.GetAll();
+            ////if (!(dogs.Any(d => d.UserId.ToString() == User.Identity.GetUserId()))) return View("");
+            //if (date == null) date = DateTime.Today.ToShortDateString();
+            //var repoSchedule = repo.GetByDate(date).ToList();
+            //List<Models.ScheduleTimeInterval> schedule = new List<Models.ScheduleTimeInterval>();
+            //foreach (var i in repoSchedule)
+            //{
+            //    var item = new Models.ScheduleTimeInterval()
+            //    {
+            //        Id = i.Id,
+            //        DogName = i.Dog.Name,
+            //        StartActivityTime = i.StartActivityTime,
+            //        EndActivityTime = i.EndActivityTime,
+            //        ActivityName = i.ActivityName,
+            //        ActivityId = (i.FoodId ?? i.TrainingId),
+            //        ActivityNameDescription = (i.FoodId != null) ? (await foodRepo.Get(i.FoodId)).Name + "\n" + (await foodRepo.Get(i.FoodId)).Description : (await trainingRepo.Get(i.TrainingId)).Name + "\n" + (await trainingRepo.Get(i.TrainingId)).Description
+            //    };
+            //    schedule.Add(item);
+            //}
+            return View("Schedule");//, (schedule.ToEnumerable(), date));
         }
 
         // GET: Schedule/Create
@@ -63,16 +56,16 @@ namespace PawsAndEars.Controllers
         [HttpPost]
         public ActionResult Create(EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
-            try
-            {
-                // TODO: Add insert logic here
-                repo.Save(scheduleTimeInterval);
-                return RedirectToAction("Schedule");
-            }
-            catch
-            {
-                return View();
-            }
+            //try
+            //{
+            //    // TODO: Add insert logic here
+            //    repo.Save(scheduleTimeInterval);
+            return RedirectToAction("Schedule");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: Schedule/Edit/5
@@ -85,16 +78,16 @@ namespace PawsAndEars.Controllers
         [HttpPost]
         public ActionResult Edit(string id, EF.Entities.ScheduleTimeInterval scheduleTimeInterval)
         {
-            try
-            {
-                // TODO: Add update logic here
-                repo.Update(id, scheduleTimeInterval);
-                return RedirectToAction("Schedule");
-            }
-            catch
-            {
-                return View();
-            }
+            //try
+            //{
+            //    // TODO: Add update logic here
+            //    repo.Update(id, scheduleTimeInterval);
+            return RedirectToAction("Schedule");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: Schedule/Delete/5
