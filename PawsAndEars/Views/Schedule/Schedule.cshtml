@@ -48,21 +48,21 @@
 </div>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить событие", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            Name
+            Имя питомца
         </th>
         <th>
-            Start Time
+            Начало
         </th>
         <th>
-            End Time
+            Конец
         </th>
         <th>
-            Activity Description
+            Описание
         </th>
         <th></th>
     </tr>
@@ -83,8 +83,8 @@
                 @Html.DisplayFor(modelItem => item.ActivityString)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
             </td>
         </tr>
     }

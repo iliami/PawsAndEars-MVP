@@ -1,4 +1,7 @@
-﻿.btn-border-radius {
+﻿.link {
+    text-decoration: none;
+}
+.btn-border-radius {
     border-radius: 15cm;
     padding: 1rem, 12rex;
 }

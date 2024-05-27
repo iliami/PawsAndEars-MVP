@@ -18,8 +18,8 @@
                         <div class="col-xl-3">@dog.BreedName</div>
                         <div class="col-xl-3">@dog.FoodString</div>
                         <div class="col-xl-3">
-                                @Html.ActionLink("Edit", "Edit", new { id = dog.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = dog.Id })
+                                @Html.ActionLink("Изменить данные", "Edit", new { id = dog.Id }) |
+                                @Html.ActionLink("Удалить", "Delete", new { id = dog.Id })
                         </div>
 
                     </div>
@@ -28,7 +28,7 @@
     }
 </ul>
 <div>
-    @Html.ActionLink("Add dog", "Add", "Dogs")
+    @Html.ActionLink("Добавить питомца", "Add", "Dogs", new {@class="link-underline link-underline-opacity-0" })
 </div>
 
 

@@ -38,9 +38,9 @@ namespace PawsAndEars.Controllers
         [Authorize]
         public ActionResult Add(Models.Dog dog)
         {
-            if ((0 >= dog.Age || dog.Age > 360) ||
-                (0 >= dog.Weight || dog.Weight > 100) ||
-                (0 >= dog.Length || dog.Length > 200))
+            if ((0 >= dog.Age && dog.Age < 15) ||
+                (0 >= dog.Weight && dog.Weight < 50) ||
+                (0 >= dog.Length && dog.Length < 75))
             {
                 ModelState.AddModelError("", "Неверно заполнено одно из полей: возраст, вес, длина");
                 return View(dog);
