@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.SqlServer.Utilities;
+﻿using System;
+using System.Data.Entity.SqlServer.Utilities;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -78,11 +79,18 @@ namespace PawsAndEars.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            int startHours = Convert.ToInt32(model.StartTime.Split(':')[0]);
+            int endHours = Convert.ToInt32(model.EndTime.Split(':')[0]);
+            if (startHours - endHours <= 0)
+            {
+                ModelState.AddModelError("", "Время конца рабочего дня должно быть больше времени начала");
+                return View(model);
+            }
             var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager>();
             var authManager = HttpContext.GetOwinContext().Authentication;
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email, StartWorkingTime = DateTime.Today.AddHours(startHours), EndWorkingTime = DateTime.Today.AddHours(endHours)};
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PawsAndEars.EF.Entities;
 
@@ -67,6 +68,14 @@ namespace PawsAndEars.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [DataType(DataType.Time)]
+        [Display(Name = "Start Working Time")]
+        public string StartTime { get; set; }
+        [Required]
+        [DataType(DataType.Time)]
+        [Display(Name = "End Working Time")]
+        public string EndTime { get; set; }
     }
     public class ResetPasswordViewModel
     {
