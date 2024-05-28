@@ -36,7 +36,7 @@ namespace PawsAndEars.Services
                 Name = model.Name,
                 BreedId = breed.Id,
                 Breed = breed,
-                FoodId = model.FoodId,
+                FoodId = food.Id,
                 Food = food,
                 Age = model.Age,
                 Weight = model.Weight,

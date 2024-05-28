@@ -6,10 +6,10 @@
 
 <h2>Добавить питомца</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Собака</h4>
         <hr />
@@ -25,7 +25,12 @@
         <div class="form-group">
             @Html.Label("Порода", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.BreedName, new SelectList(new string[] {  }), new { htmlAttributes = new { @class = "form-control" } })
+                @{ 
+                    PawsAndEars.EF.AppDbContext context = new PawsAndEars.EF.AppDbContext("DefaultConnection");
+                    string[] breeds = context.Breeds.Select(b => b.Name).ToArray();
+                    context.Dispose();
+                 }
+                @Html.DropDownListFor(model => model.BreedName, new SelectList(breeds), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BreedName, "", new { @class = "text-danger" })
             </div>
         </div>
