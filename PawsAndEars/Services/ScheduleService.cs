@@ -68,7 +68,7 @@ namespace PawsAndEars.Services
 
                 var meals = dog.Breed.MealsPerDay;
                 var walkingMinutes = dog.Breed.WalkingMinutesPerDay;
-                List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes / 60);
+                List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes % 60==0? walkingMinutes / 60 : walkingMinutes / 60 + 1);
 
                 var food = context.Foods.FirstOrDefault(f => f.Id == dog.FoodId);
                 for (int i = 0; i < meals; i++)
