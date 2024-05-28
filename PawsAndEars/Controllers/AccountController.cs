@@ -81,7 +81,7 @@ namespace PawsAndEars.Controllers
         {
             int startHours = Convert.ToInt32(model.StartTime.Split(':')[0]);
             int endHours = Convert.ToInt32(model.EndTime.Split(':')[0]);
-            if (startHours - endHours <= 0)
+            if (endHours - startHours <= 0)
             {
                 ModelState.AddModelError("", "Время конца рабочего дня должно быть больше времени начала");
                 return View(model);
