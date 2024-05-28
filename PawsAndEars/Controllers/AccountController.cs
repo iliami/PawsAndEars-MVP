@@ -86,28 +86,30 @@ namespace PawsAndEars.Controllers
                 ModelState.AddModelError("", "Время конца рабочего дня должно быть больше времени начала");
                 return View(model);
             }
-            var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager>();
-            var authManager = HttpContext.GetOwinContext().Authentication;
-            if (ModelState.IsValid)
+            else
             {
-                var user = new User { UserName = model.Email, Email = model.Email, StartWorkingTime = DateTime.Today.AddHours(startHours), EndWorkingTime = DateTime.Today.AddHours(endHours)};
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var userManager = HttpContext.GetOwinContext().GetUserManager<UserManager>();
+                var authManager = HttpContext.GetOwinContext().Authentication;
+                if (ModelState.IsValid)
                 {
-                    ClaimsIdentity claimsIdentity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie).WithCurrentCulture();
-                    authManager.SignIn(
-                        new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
+                    var user = new User { UserName = model.Email, Email = model.Email, StartWorkingTime = DateTime.Today.AddHours(startHours), EndWorkingTime = DateTime.Today.AddHours(endHours) };
+                    var result = await userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        ClaimsIdentity claimsIdentity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie).WithCurrentCulture();
+                        authManager.SignIn(
+                            new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
