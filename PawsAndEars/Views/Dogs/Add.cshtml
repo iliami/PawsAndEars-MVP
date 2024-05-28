@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.Label("Порода", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BreedName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.BreedName, new SelectList(new string[] {  }) new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BreedName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +33,8 @@
         <div class="form-group">
             @Html.Label("Возраст", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.Age, new SelectList(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 }), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,15 +42,15 @@
         <div class="form-group">
             @Html.Label("Вес", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Weight, "В килограммах", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Высота в холке", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Длина тела", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Length, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Length,"В сантиметрах", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Length, "", new { @class = "text-danger" })
             </div>
         </div>

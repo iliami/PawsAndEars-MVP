@@ -38,11 +38,14 @@ namespace PawsAndEars.Controllers
         [Authorize]
         public ActionResult Add(Models.Dog dog)
         {
-            if ((0 >= dog.Age && dog.Age < 15) ||
-                (0 >= dog.Weight && dog.Weight < 50) ||
-                (0 >= dog.Length && dog.Length < 75))
+            if (0 >= dog.Weight || dog.Weight > 50)
             {
-                ModelState.AddModelError("", "Неверно заполнено одно из полей: возраст, вес, длина");
+                ModelState.AddModelError("", "Неверно заполнен вес, он должен быть положительным, менее 50 кг");
+                return View(dog);
+            }
+            if (0 >= dog.Length || dog.Length > 150)
+            {
+                ModelState.AddModelError("", "Неверно заполнена длина, она должна быть положительной, менее 150 см");
                 return View(dog);
             }
             dogsService.Create(User.Identity.GetUserId(), dog);
