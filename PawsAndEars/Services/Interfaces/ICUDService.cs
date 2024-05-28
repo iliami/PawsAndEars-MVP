@@ -13,5 +13,6 @@ namespace PawsAndEars.Services.Interfaces
         void Create(string id);
         void Update(string id, TParameter value);
         void Delete(string id);
+        void Save();
     }
 }

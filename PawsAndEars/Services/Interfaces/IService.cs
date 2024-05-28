@@ -11,7 +11,6 @@ namespace PawsAndEars.Services.Interfaces
         ICUDService<TParameter>
         where TParameter : class
         where TResult : class
-    {
-        void Save();
+    { 
     }
 }
