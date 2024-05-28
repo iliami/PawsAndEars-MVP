@@ -46,7 +46,8 @@ namespace PawsAndEars.Controllers
         // GET: Schedule/Edit/5
         public ActionResult Edit(string id)
         {
-            return View();
+            var model = scheduleService.Get(User.Identity.GetUserId()).First(s => s.Id == id);
+            return View(model);
         }
 
         // POST: Schedule/Edit/5
@@ -61,7 +62,8 @@ namespace PawsAndEars.Controllers
         // GET: Schedule/Delete/5
         public ActionResult Delete(string id)
         {
-            return View();
+            var model = scheduleService.Get(User.Identity.GetUserId()).First(s => s.Id == id);
+            return View(model);
         }
 
         // POST: Schedule/Delete/5

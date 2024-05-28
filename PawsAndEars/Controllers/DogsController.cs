@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -63,7 +64,8 @@ namespace PawsAndEars.Controllers
         // GET: Dogs/Edit/5
         public ActionResult Edit(string id)
         {
-            return View();
+            var model = dogsService.Get(User.Identity.GetUserId()).First(d => d.Id == id);
+            return View(model);
         }
 
         // POST: Dogs/Edit/5
@@ -78,7 +80,8 @@ namespace PawsAndEars.Controllers
         // GET: Dogs/Delete/5
         public ActionResult Delete(string id)
         {
-            return View();
+            var model = dogsService.Get(User.Identity.GetUserId()).First(d => d.Id == id);
+            return View(model);
         }
 
         // POST: Dogs/Delete/5

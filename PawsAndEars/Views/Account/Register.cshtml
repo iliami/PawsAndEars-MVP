@@ -30,9 +30,9 @@
             </div>
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.StartTime, new { @class = "col-md-2 col-form-label" })
+            @Html.LabelFor(m => m.EndTime, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.StartTime, new SelectList(new string[] { "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00" }), new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.EndTime, new SelectList(new string[] { "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00" }), new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
