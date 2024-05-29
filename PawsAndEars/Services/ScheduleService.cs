@@ -16,19 +16,18 @@ namespace PawsAndEars.Services
     {
         private AppDbContext context;
         public ScheduleService(AppDbContext context) { this.context = context; }
-        public void Create(string dogId, Models.ScheduleTimeInterval model)
+        public void Create(string userId, Models.ScheduleTimeInterval model)
         {
-            Dog dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
-            
+            Dog dog = context.Dogs.FirstOrDefault(d => d.Name == model.DogName);
             (Food food, string foodId) = (null, null);
             (Training training, string trainingId) = (null, null);
             switch (model.ActivityType)
             {
-                case "Food": 
+                case "Food":
                     {
                         food = context.Foods.FirstOrDefault(f => f.Id == model.ActivityId);
                         foodId = model.ActivityId;
-                        break; 
+                        break;
                     }
                 case "Training":
                     {
@@ -41,7 +40,7 @@ namespace PawsAndEars.Services
             ScheduleTimeInterval scheduleTimeInterval = new ScheduleTimeInterval
             {
                 Id = Guid.NewGuid().ToString(),
-                DogId = dogId,
+                DogId = dog.Id,
                 Dog = dog,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime,
@@ -60,7 +59,7 @@ namespace PawsAndEars.Services
             var user = context.Users.FirstOrDefault(u => u.Id == userId);
             var startWorkingTime = user.StartWorkingTime.Hour * 60 + user.StartWorkingTime.Minute;
             var endWorkingTime = user.EndWorkingTime.Hour * 60 + user.EndWorkingTime.Minute;
-            
+
             DateTime startTime;
             int morningTrainingMins = 0;
             DateTime endTime = DateTime.Today.AddHours(23);
@@ -102,16 +101,16 @@ namespace PawsAndEars.Services
                 for (int i = 0; i < meals; i++)
                 {
                     scheduleTimeIntervals.Add(new ScheduleTimeInterval
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            DogId = dog.Id,
-                            Dog = dog,
-                            StartTime = startTime,
-                            EndTime = startTime.AddMinutes(15),
-                            ActivityType = "Food",
-                            FoodId = dog.FoodId,
-                            Food = food
-                        });
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        DogId = dog.Id,
+                        Dog = dog,
+                        StartTime = startTime,
+                        EndTime = startTime.AddMinutes(15),
+                        ActivityType = "Food",
+                        FoodId = dog.FoodId,
+                        Food = food
+                    });
 
                     if ( user.StartWorkingTime <= startTime.AddMinutes(intervalBetweenMeals) && startTime.AddMinutes(intervalBetweenMeals) <= user.EndWorkingTime)
                     {
