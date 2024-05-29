@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using PawsAndEars.EF;
 using PawsAndEars.EF.Entities;
+using PawsAndEars.Patterns;
 using PawsAndEars.Services.Interfaces;
 
 namespace PawsAndEars.Services
@@ -57,101 +58,20 @@ namespace PawsAndEars.Services
         public void Create(string userId)
         {
             var user = context.Users.FirstOrDefault(u => u.Id == userId);
-            var startWorkingTime = user.StartWorkingTime.Hour * 60 + user.StartWorkingTime.Minute;
-            var endWorkingTime = user.EndWorkingTime.Hour * 60 + user.EndWorkingTime.Minute;
 
-            DateTime startTime;
-            int morningTrainingMins = 0;
-            DateTime endTime = DateTime.Today.AddHours(23);
-            if (startWorkingTime <= 8 * 60)
-            {
-                startTime = DateTime.Today.AddHours(startWorkingTime / 60 - 1).AddMinutes(startWorkingTime % 60);
-            }
-            else if (8 * 60 < startWorkingTime && startWorkingTime <= 11 * 60)
-            {
-                startTime = DateTime.Today.AddHours(startWorkingTime / 60 - 2).AddMinutes(startWorkingTime % 60);
-                morningTrainingMins = 60;
-            }
-            else if (11 * 60 < startWorkingTime && startWorkingTime <= 14 * 60)
-            {
-                startTime = DateTime.Today.AddHours(startWorkingTime / 60 - 5).AddMinutes(startWorkingTime % 60);
-                morningTrainingMins = 120;
-            }
-            else
-            {
-                startTime = DateTime.Today.AddHours(startWorkingTime / 60 - 8).AddMinutes(startWorkingTime % 60);
-                morningTrainingMins = 240;
-            }
-
-            var timeDiff = (endTime - startTime - (DateTime.Today.AddMinutes(endWorkingTime) - DateTime.Today.AddMinutes(startWorkingTime))).TotalMinutes;
-            
             var dogs = context.Dogs.Where(d => d.UserId == userId);
+
             foreach (var dog in dogs)
             {
                 if (context.ScheduleTimeIntervals.ToList().Where(s => s.Dog == dog).Any()) continue;
 
-                var meals = dog.Breed.MealsPerDay;
-                var walkingMinutes = dog.Breed.WalkingMinutesPerDay;
-                List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes % 60==0? walkingMinutes / 60 : walkingMinutes / 60 + 1);
-                
-                var intervalBetweenMeals = (int)((timeDiff - meals * 15) / meals);
+                var builder = new ScheduleBuilder();
+                builder
+                    .WithMealsPerDay(dog.Breed.MealsPerDay)
+                    .WithWalkingMinutesPerDay(dog.Breed.WalkingMinutesPerDay)
+                    .WithWorkingTime(user.StartWorkingTime, user.EndWorkingTime);
 
-
-                var food = context.Foods.FirstOrDefault(f => f.Id == dog.FoodId);
-                for (int i = 0; i < meals; i++)
-                {
-                    scheduleTimeIntervals.Add(new ScheduleTimeInterval
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        DogId = dog.Id,
-                        Dog = dog,
-                        StartTime = startTime,
-                        EndTime = startTime.AddMinutes(15),
-                        ActivityType = "Food",
-                        FoodId = dog.FoodId,
-                        Food = food
-                    });
-
-                    if ( user.StartWorkingTime <= startTime.AddMinutes(intervalBetweenMeals) && startTime.AddMinutes(intervalBetweenMeals) <= user.EndWorkingTime)
-                    {
-                        startTime = user.EndWorkingTime;
-                    }
-                    else
-                    {
-                        startTime = startTime.AddMinutes(intervalBetweenMeals);
-                    }
-                }
-
-                int morningTrainingMinsForDog = Math.Min(morningTrainingMins, walkingMinutes);
-                var training = context.Trainings.FirstOrDefault(t => t.Name == "Walking");
-                startTime = scheduleTimeIntervals[0].EndTime.AddMinutes(15);
-                if (morningTrainingMins > 0)
-                {
-                    scheduleTimeIntervals.Add(new ScheduleTimeInterval
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        DogId = dog.Id,
-                        Dog = dog,
-                        StartTime = startTime,
-                        EndTime = startTime.AddMinutes(morningTrainingMins),
-                        ActivityType = "Training",
-                        TrainingId = training.Id,
-                        Training = training
-                    });
-                    walkingMinutes -= morningTrainingMins;
-                }
-                if (walkingMinutes > 0)
-                    scheduleTimeIntervals.Add(new ScheduleTimeInterval
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        DogId = dog.Id,
-                        Dog = dog,
-                        StartTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime >= user.EndWorkingTime).EndTime.AddMinutes(15),
-                        EndTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime >= user.EndWorkingTime).EndTime.AddMinutes(15 + walkingMinutes),
-                        ActivityType = "Training",
-                        TrainingId = training.Id,
-                        Training = training
-                    });
+                var scheduleTimeIntervals = builder.Build(dog);
 
                 context.ScheduleTimeIntervals.AddRange(scheduleTimeIntervals);
 

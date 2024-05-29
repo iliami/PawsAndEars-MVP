@@ -171,6 +171,14 @@
     <Compile Include="EF\AppDbContext.cs" />
     <Compile Include="EF\DbInitializer.cs" />
     <Compile Include="EF\Entities\Role.cs" />
+    <Compile Include="Patterns\Activities\Activity.cs" />
+    <Compile Include="Patterns\Activities\IGetInfo.cs" />
+    <Compile Include="Patterns\Activities\Training.cs" />
+    <Compile Include="Patterns\Activities\Walking.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Patterns\FoodBuilder.cs" />
+    <Compile Include="Patterns\ScheduleBuilder.cs" />
+    <Compile Include="Patterns\ScheduleTimeIntervalFactory.cs" />
     <Compile Include="Services\UserManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
