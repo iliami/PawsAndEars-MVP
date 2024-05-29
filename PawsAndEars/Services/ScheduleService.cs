@@ -16,19 +16,18 @@ namespace PawsAndEars.Services
     {
         private AppDbContext context;
         public ScheduleService(AppDbContext context) { this.context = context; }
-        public void Create(string dogId, Models.ScheduleTimeInterval model)
+        public void Create(string userId, Models.ScheduleTimeInterval model)
         {
-            Dog dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
-            
+            Dog dog = context.Dogs.FirstOrDefault(d => d.Name == model.DogName);
             (Food food, string foodId) = (null, null);
             (Training training, string trainingId) = (null, null);
             switch (model.ActivityType)
             {
-                case "Food": 
+                case "Food":
                     {
                         food = context.Foods.FirstOrDefault(f => f.Id == model.ActivityId);
                         foodId = model.ActivityId;
-                        break; 
+                        break;
                     }
                 case "Training":
                     {
@@ -41,7 +40,7 @@ namespace PawsAndEars.Services
             ScheduleTimeInterval scheduleTimeInterval = new ScheduleTimeInterval
             {
                 Id = Guid.NewGuid().ToString(),
-                DogId = dogId,
+                DogId = dog.Id,
                 Dog = dog,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime,
@@ -60,7 +59,7 @@ namespace PawsAndEars.Services
             var user = context.Users.FirstOrDefault(u => u.Id == userId);
             var startWorkingTime = user.StartWorkingTime.Hour * 60 + user.StartWorkingTime.Minute;
             var endWorkingTime = user.EndWorkingTime.Hour * 60 + user.EndWorkingTime.Minute;
-            
+
             DateTime startTime;
             int morningTrainingMins = 0;
             DateTime endTime = DateTime.Today.AddHours(23);
@@ -85,7 +84,7 @@ namespace PawsAndEars.Services
             }
 
             var timeDiff = (endTime - startTime).TotalMinutes;
-            
+
             var dogs = context.Dogs.Where(d => d.UserId == userId);
             foreach (var dog in dogs)
             {
@@ -93,8 +92,8 @@ namespace PawsAndEars.Services
 
                 var meals = dog.Breed.MealsPerDay;
                 var walkingMinutes = dog.Breed.WalkingMinutesPerDay;
-                List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes % 60==0? walkingMinutes / 60 : walkingMinutes / 60 + 1);
-                
+                List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes % 60 == 0 ? walkingMinutes / 60 : walkingMinutes / 60 + 1);
+
                 var intervalBetweenMeals = (int)((timeDiff - meals * 15) / meals) / 60;
 
 
@@ -102,18 +101,18 @@ namespace PawsAndEars.Services
                 for (int i = 0, interval = 0; i < meals; i++)
                 {
                     scheduleTimeIntervals.Add(new ScheduleTimeInterval
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            DogId = dog.Id,
-                            Dog = dog,
-                            StartTime = startTime,
-                            EndTime = startTime.AddMinutes(15),
-                            ActivityType = "Food",
-                            FoodId = dog.FoodId,
-                            Food = food
-                        });
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        DogId = dog.Id,
+                        Dog = dog,
+                        StartTime = startTime,
+                        EndTime = startTime.AddMinutes(15),
+                        ActivityType = "Food",
+                        FoodId = dog.FoodId,
+                        Food = food
+                    });
 
-                    if ( user.StartWorkingTime <= startTime.AddHours(intervalBetweenMeals) && startTime.AddHours(intervalBetweenMeals) <= startTime.AddHours(intervalBetweenMeals))
+                    if (user.StartWorkingTime <= startTime.AddHours(intervalBetweenMeals) && startTime.AddHours(intervalBetweenMeals) <= startTime.AddHours(intervalBetweenMeals))
                     {
                         interval = (int)(user.EndWorkingTime - startTime.AddHours(intervalBetweenMeals)).TotalMinutes;
                         startTime = user.EndWorkingTime;
