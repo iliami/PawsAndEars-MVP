@@ -12,5 +12,13 @@ namespace PawsAndEars.Models
         public string ActivityType { get; set; }
         public string ActivityId { get; set; }
         public string ActivityString { get; set; }
+        public string ActivityName { get; set; }
+        public string ActivityDescription { get; set; }
+
+        public bool IsFood { get; set; }
+        public double Weight { get; set; }
+        public double CaloriesPer100g { get; set; }
+        public bool IsPurchased { get; set; }
+        public decimal Price { get; set; }
     }
 }

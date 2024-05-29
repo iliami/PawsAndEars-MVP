@@ -17,42 +17,55 @@ namespace PawsAndEars.Services
     {
         private AppDbContext context;
         public ScheduleService(AppDbContext context) { this.context = context; }
+        
+        
+        
         public void Create(string userId, Models.ScheduleTimeInterval model)
         {
-            Dog dog = context.Dogs.FirstOrDefault(d => d.Name == model.DogName);
-            (Food food, string foodId) = (null, null);
-            (Training training, string trainingId) = (null, null);
+            ScheduleTimeInterval sti = new ScheduleTimeInterval();
+            Dog dog = context.Dogs.FirstOrDefault(d => d.UserId == userId && d.Name == model.DogName);
             switch (model.ActivityType)
             {
                 case "Food":
                     {
-                        food = context.Foods.FirstOrDefault(f => f.Id == model.ActivityId);
-                        foodId = model.ActivityId;
+                        if (model.IsPurchased)
+                            sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithPurchasedFood(model.Weight, model.CaloriesPer100g, model.Price);
+                        else
+                            sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithHomemadeFood(model.Weight, model.CaloriesPer100g);
+
+                        var builder = new FoodBuilder();
+
+                        var food = builder
+                            .WithName(model.ActivityName)
+                            .WithDescription(model.ActivityDescription)
+                            .WithWeight(model.Weight)
+                            .WithCalories(model.CaloriesPer100g)
+                            .WithPrice(model.Price).Build();
+
+                        sti.StartTime = model.StartTime;
+                        sti.EndTime = model.EndTime;
+                        sti.Dog = dog;
+                        sti.DogId = dog.Id;
+                        sti.Food = food;
+                        sti.FoodId = food.Id;
+                        
                         break;
                     }
                 case "Training":
                     {
-                        training = context.Trainings.FirstOrDefault(t => t.Id == model.ActivityId);
-                        trainingId = model.ActivityId;
+                        sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithWalking();
+                        sti.StartTime = model.StartTime;
+                        sti.EndTime = model.EndTime;
+                        sti.Dog = dog;
+                        sti.DogId = dog.Id;
+                        sti.Training.Name = model.ActivityName;
+                        sti.Training.Description = model.ActivityDescription;
+
                         break;
                     }
             }
 
-            ScheduleTimeInterval scheduleTimeInterval = new ScheduleTimeInterval
-            {
-                Id = Guid.NewGuid().ToString(),
-                DogId = dog.Id,
-                Dog = dog,
-                StartTime = model.StartTime,
-                EndTime = model.EndTime,
-                ActivityType = model.ActivityType,
-                FoodId = foodId,
-                Food = food,
-                TrainingId = trainingId,
-                Training = training
-            };
-
-            context.ScheduleTimeIntervals.Add(scheduleTimeInterval);
+            context.ScheduleTimeIntervals.Add(sti);
         }
 
         public void Create(string userId)
@@ -100,7 +113,7 @@ namespace PawsAndEars.Services
 
         public void Delete(string stiId)
         {
-            var sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
+            var sti = context.ScheduleTimeIntervals.Include(t => t.Food).Include(t => t.Training).FirstOrDefault(t => t.Id == stiId);
             context.ScheduleTimeIntervals.Remove(sti);
             context.SaveChanges();
         }
@@ -119,9 +132,12 @@ namespace PawsAndEars.Services
                     EndTime = s.EndTime,
                     ActivityType = s.ActivityType,
                     ActivityId = s.FoodId ?? s.TrainingId,
-                    ActivityString = (s.ActivityType == "Food") ?
-                          s.Food.Name + " " + s.Food.Description + " Калорийность на 100 грамм: " + s.Food.CaloriesPer100g
-                        : s.Training.Name + "\n" + s.Training.Description
+                    ActivityString = (s.ActivityType == "Food") ? (
+                        (s.Food.Price == null) ?
+                          $"{s.Food.Name} - {s.Food.Description} - Weight: {s.Food.Weight} - Calories 100g: {s.Food.CaloriesPer100g}" :
+                          $"{s.Food.Name} - {s.Food.Description} - Price: {s.Food.Price} - Weight: {s.Food.Weight} - Calories 100g: {s.Food.CaloriesPer100g}"
+                          )
+                        : s.Training.Name + " - " + s.Training.Description
                 }
             );
             sti = sti.OrderBy(s => s.StartTime).OrderBy(s => s.EndTime).ToList();
@@ -135,36 +151,59 @@ namespace PawsAndEars.Services
 
         public void Update(string stiId, Models.ScheduleTimeInterval model)
         {
-            var sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
-            var dog = context.Dogs.FirstOrDefault(d => d.Id == model.DogId);
+            var _sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
+            var dog = context.Dogs.FirstOrDefault(d => d.Id == model.DogId && d.Name == model.DogName);
 
-            (Food food, string foodId) = (null, null);
-            (Training training, string trainingId) = (null, null);
+            ScheduleTimeInterval sti = new ScheduleTimeInterval();
             switch (model.ActivityType)
             {
                 case "Food":
                     {
-                        food = context.Foods.FirstOrDefault(f => f.Id == model.ActivityId);
-                        foodId = model.ActivityId;
+                        if (model.IsPurchased)
+                            sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithPurchasedFood(model.Weight, model.CaloriesPer100g, model.Price);
+                        else
+                            sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithHomemadeFood(model.Weight, model.CaloriesPer100g);
+
+                        var builder = new FoodBuilder();
+
+                        var food = builder
+                            .WithName(model.ActivityName)
+                            .WithDescription(model.ActivityDescription)
+                            .WithWeight(model.Weight)
+                            .WithCalories(model.CaloriesPer100g)
+                            .WithPrice(model.Price).Build();
+
+                        sti.StartTime = model.StartTime;
+                        sti.EndTime = model.EndTime;
+                        sti.Dog = dog;
+                        sti.DogId = dog.Id;
+                        sti.Food = food;
+                        sti.FoodId = food.Id;
+
                         break;
                     }
                 case "Training":
                     {
-                        training = context.Trainings.FirstOrDefault(t => t.Id == model.ActivityId);
-                        trainingId = model.ActivityId;
+                        sti = ScheduleTimeIntervalFactory.CreateTimeIntervalWithWalking();
+                        sti.StartTime = model.StartTime;
+                        sti.EndTime = model.EndTime;
+                        sti.Dog = dog;
+                        sti.DogId = dog.Id;
+                        sti.Training.Name = model.ActivityName;
+                        sti.Training.Description = model.ActivityDescription;
+
                         break;
                     }
             }
 
-            sti.DogId = model.DogId;
-            sti.Dog = dog;
-            sti.StartTime = model.StartTime;
-            sti.EndTime = model.EndTime;
-            sti.ActivityType = model.ActivityType;
-            sti.FoodId = foodId;
-            sti.Food = food;
-            sti.TrainingId = trainingId;
-            sti.Training = training;
+            _sti.StartTime = sti.StartTime;
+            _sti.EndTime = sti.EndTime;
+            _sti.Dog = sti.Dog;
+            _sti.DogId = sti.DogId;
+            _sti.Food = sti.Food;
+            _sti.FoodId = sti.FoodId;
+            _sti.Training = sti.Training;
+            _sti.TrainingId = sti.TrainingId;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿@model PawsAndEars.Models.ScheduleTimeInterval
+﻿@using PawsAndEars.EF;
+@using Microsoft.AspNet.Identity;
+@model PawsAndEars.Models.ScheduleTimeInterval
 
 @{
     ViewBag.Title = "Edit";
@@ -16,23 +18,22 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.Label("Имя питомца", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DogName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DogName, new { htmlAttributes = new { @class = "form-control" } })
+                @{
+                    string[] dogNames;
+                    using (var context = new AppDbContext("DefaultConnection"))
+                    {
+                        dogNames = context.Dogs.Where(d => d.UserId == User.Identity.GetUserId()).Select(d => d.Name).ToArray();
+                    }
+                }
+                @Html.DropDownListFor(model => model.DogName, new SelectList(dogNames), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DogName, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group d-none">
-            @Html.LabelFor(model => model.DogId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DogId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DogId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
-            @Html.Label("Начало", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
@@ -40,7 +41,7 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Конец", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
@@ -48,26 +49,66 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Тип события", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ActivityType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.ActivityType, new SelectList(new string[] { "Food", "Training" }), new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ActivityType, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group d-none">
-            @Html.LabelFor(model => model.ActivityId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ActivityName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ActivityId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ActivityName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ActivityName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Описание", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ActivityDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityString, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ActivityString, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ActivityDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ActivityDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsFood, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.IsFood, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsFood, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CaloriesPer100g, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CaloriesPer100g, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CaloriesPer100g, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPurchased, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.IsPurchased, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsPurchased, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
 
