@@ -84,7 +84,7 @@ namespace PawsAndEars.Services
                 morningTrainingMins = 240;
             }
 
-            var timeDiff = (endTime - startTime).TotalMinutes;
+            var timeDiff = (endTime - startTime - (DateTime.Today.AddMinutes(endWorkingTime) - DateTime.Today.AddMinutes(startWorkingTime))).TotalMinutes;
             
             var dogs = context.Dogs.Where(d => d.UserId == userId);
             foreach (var dog in dogs)
@@ -95,11 +95,11 @@ namespace PawsAndEars.Services
                 var walkingMinutes = dog.Breed.WalkingMinutesPerDay;
                 List<ScheduleTimeInterval> scheduleTimeIntervals = new List<ScheduleTimeInterval>(meals + walkingMinutes % 60==0? walkingMinutes / 60 : walkingMinutes / 60 + 1);
                 
-                var intervalBetweenMeals = (int)((timeDiff - meals * 15) / meals) / 60;
+                var intervalBetweenMeals = (int)((timeDiff - meals * 15) / meals);
 
 
                 var food = context.Foods.FirstOrDefault(f => f.Id == dog.FoodId);
-                for (int i = 0, interval = 0; i < meals; i++)
+                for (int i = 0; i < meals; i++)
                 {
                     scheduleTimeIntervals.Add(new ScheduleTimeInterval
                         {
@@ -113,51 +113,69 @@ namespace PawsAndEars.Services
                             Food = food
                         });
 
-                    if ( user.StartWorkingTime <= startTime.AddHours(intervalBetweenMeals) && startTime.AddHours(intervalBetweenMeals) <= startTime.AddHours(intervalBetweenMeals))
+                    if ( user.StartWorkingTime <= startTime.AddMinutes(intervalBetweenMeals) && startTime.AddMinutes(intervalBetweenMeals) <= user.EndWorkingTime)
                     {
-                        interval = (int)(user.EndWorkingTime - startTime.AddHours(intervalBetweenMeals)).TotalMinutes;
                         startTime = user.EndWorkingTime;
                     }
                     else
                     {
-                        if (interval > 0)
-                        {
-                            intervalBetweenMeals -= (int)(1.0 * interval / (meals - i));
-                            interval = 0;
-                        }
-                        startTime = startTime.AddHours(intervalBetweenMeals);
+                        startTime = startTime.AddMinutes(intervalBetweenMeals);
                     }
                 }
 
                 int morningTrainingMinsForDog = Math.Min(morningTrainingMins, walkingMinutes);
                 var training = context.Trainings.FirstOrDefault(t => t.Name == "Walking");
                 startTime = scheduleTimeIntervals[0].EndTime.AddMinutes(15);
-                scheduleTimeIntervals.Add(new ScheduleTimeInterval
+                if (morningTrainingMins > 0)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    DogId = dog.Id,
-                    Dog = dog,
-                    StartTime = startTime,
-                    EndTime = startTime.AddMinutes(morningTrainingMins),
-                    ActivityType = "Training",
-                    TrainingId = training.Id,
-                    Training = training
-                });
-                walkingMinutes -= morningTrainingMins;
+                    scheduleTimeIntervals.Add(new ScheduleTimeInterval
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        DogId = dog.Id,
+                        Dog = dog,
+                        StartTime = startTime,
+                        EndTime = startTime.AddMinutes(morningTrainingMins),
+                        ActivityType = "Training",
+                        TrainingId = training.Id,
+                        Training = training
+                    });
+                    walkingMinutes -= morningTrainingMins;
+                }
                 if (walkingMinutes > 0)
                     scheduleTimeIntervals.Add(new ScheduleTimeInterval
                     {
                         Id = Guid.NewGuid().ToString(),
                         DogId = dog.Id,
                         Dog = dog,
-                        StartTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime > user.EndWorkingTime).EndTime.AddMinutes(15),
-                        EndTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime > user.EndWorkingTime).EndTime.AddMinutes(15 + walkingMinutes),
+                        StartTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime >= user.EndWorkingTime).EndTime.AddMinutes(15),
+                        EndTime = scheduleTimeIntervals.First(f => f.ActivityType == "Food" && f.StartTime >= user.EndWorkingTime).EndTime.AddMinutes(15 + walkingMinutes),
                         ActivityType = "Training",
                         TrainingId = training.Id,
                         Training = training
                     });
 
                 context.ScheduleTimeIntervals.AddRange(scheduleTimeIntervals);
+
+                for (int i = 1; i < 7; i++)
+                {
+                    foreach (var _sti in scheduleTimeIntervals)
+                    {
+                        var sti = new ScheduleTimeInterval
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            DogId = dog.Id,
+                            Dog = dog,
+                            StartTime = _sti.StartTime.AddDays(i),
+                            EndTime = _sti.EndTime.AddDays(i),
+                            ActivityType = _sti.ActivityType,
+                            FoodId = _sti.FoodId,
+                            Food = _sti.Food,
+                            TrainingId = _sti.TrainingId,
+                            Training = _sti.Training
+                        };
+                        context.ScheduleTimeIntervals.Add(sti);
+                    }
+                }
             }
         }
 
@@ -183,10 +201,11 @@ namespace PawsAndEars.Services
                     ActivityType = s.ActivityType,
                     ActivityId = s.FoodId ?? s.TrainingId,
                     ActivityString = (s.ActivityType == "Food") ?
-                          s.Food.Name + "\n" + s.Food.Description + "\nВес: " + s.Food.Weight + " Калорийность на 100 грамм: " + s.Food.CaloriesPer100g
+                          s.Food.Name + " " + s.Food.Description + " Калорийность на 100 грамм: " + s.Food.CaloriesPer100g
                         : s.Training.Name + "\n" + s.Training.Description
                 }
             );
+            sti = sti.OrderBy(s => s.StartTime).OrderBy(s => s.EndTime).ToList();
             return sti;
         }
 
