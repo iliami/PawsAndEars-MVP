@@ -23,7 +23,8 @@
                 string[] dogNames;
                 using (var context = new AppDbContext("DefaultConnection"))
                 {
-                    dogNames = context.Dogs.Where(d => d.UserId == User.Identity.GetUserId()).Select(d => d.Name).ToArray(); 
+                    var user = User.Identity.GetUserId();
+                    dogNames = context.Dogs.Where(d => d.UserId == user).Select(d => d.Name).ToArray(); 
                 }
             }
             @Html.DropDownListFor(model => model.DogName, new SelectList(dogNames) , new { htmlAttributes = new { @class = "form-control" } })
@@ -68,14 +69,6 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.ActivityDescription, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ActivityDescription, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsFood, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.CheckBoxFor(model => model.IsFood, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IsFood, "", new { @class = "text-danger" })
         </div>
     </div>
 

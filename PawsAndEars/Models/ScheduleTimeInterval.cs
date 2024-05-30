@@ -15,7 +15,6 @@ namespace PawsAndEars.Models
         public string ActivityName { get; set; }
         public string ActivityDescription { get; set; }
 
-        public bool IsFood { get; set; }
         public double Weight { get; set; }
         public double CaloriesPer100g { get; set; }
         public bool IsPurchased { get; set; }

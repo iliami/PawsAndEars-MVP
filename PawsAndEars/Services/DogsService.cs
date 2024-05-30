@@ -90,8 +90,7 @@ namespace PawsAndEars.Services
         public void Update(string dogId, Models.Dog model)
         {
             var dog = context.Dogs.FirstOrDefault(d => d.Id == dogId);
-            var breed = context.Breeds.FirstOrDefault(b => b.Name == model.BreedName);
-            var food = context.Foods.FirstOrDefault(f => f.Id == model.FoodId);
+            var food = context.Foods.FirstOrDefault(f => f.Id == model.FoodId) ?? context.Foods.ToList()[0];
             ICollection<Disease> diseases = null;
             if (model.Diseases != null)
                 diseases = context.Diseases
@@ -99,15 +98,12 @@ namespace PawsAndEars.Services
                     .ToList();
 
             dog.Name = model.Name;
-            dog.Breed = breed;
-            dog.BreedId = breed.Id;
-            dog.FoodId = model.FoodId;
+            dog.FoodId = food.Id;
             dog.Food = food;
             dog.Age = model.Age;
             dog.Weight = model.Weight;
             dog.Length = model.Length;
             dog.Diseases = diseases;
-            dog.UserId = model.UserId;
         }
     }
 }

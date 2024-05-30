@@ -15,8 +15,13 @@ namespace PawsAndEars.Patterns
         public static ScheduleTimeInterval CreateTimeIntervalWithHomemadeFood(double weight, double caloriesPer100g)
         {
             var builder = new FoodBuilder();
-            builder.WithName("Food").WithDescription("Homemade food").WithWeight(weight).WithCalories(caloriesPer100g);
-            var food = builder.Build();
+           
+            var food = builder
+                .WithName("Food")
+                .WithDescription("Homemade food")
+                .WithWeight(weight)
+                .WithCalories(caloriesPer100g)
+                .Build();
 
             var sti = new ScheduleTimeInterval()
             {
@@ -32,11 +37,17 @@ namespace PawsAndEars.Patterns
         public static ScheduleTimeInterval CreateTimeIntervalWithPurchasedFood(double weight, double caloriesPer100g, decimal price)
         {
             var builder = new FoodBuilder();
-            builder.WithName("Food").WithDescription("Purchased food").WithWeight(weight).WithCalories(caloriesPer100g).WithPrice(price);
-            var food = builder.Build();
+
+            var food = builder
+                .WithName("Food")
+                .WithDescription("Purchased food")
+                .WithWeight(weight)
+                .WithCalories(caloriesPer100g)
+                .WithPrice(price)
+                .Build();
 
             var sti = new ScheduleTimeInterval()
-            {
+            { 
                 Id = Guid.NewGuid().ToString(),
                 ActivityType = "Food",
                 Food = food,

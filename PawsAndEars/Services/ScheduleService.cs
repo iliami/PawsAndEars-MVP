@@ -137,7 +137,13 @@ namespace PawsAndEars.Services
                           $"{s.Food.Name} - {s.Food.Description} - Weight: {s.Food.Weight} - Calories 100g: {s.Food.CaloriesPer100g}" :
                           $"{s.Food.Name} - {s.Food.Description} - Price: {s.Food.Price} - Weight: {s.Food.Weight} - Calories 100g: {s.Food.CaloriesPer100g}"
                           )
-                        : s.Training.Name + " - " + s.Training.Description
+                        : s.Training.Name + " - " + s.Training.Description,
+                    ActivityName = (s.ActivityType == "Food") ? s.Food.Name : s.Training.Name,
+                    ActivityDescription = (s.ActivityType == "Food") ? s.Food.Description : s.Training.Description,
+                    Weight = (s.ActivityType == "Food") ? s.Food.Weight : 0,
+                    CaloriesPer100g = (s.ActivityType == "Food") ? s.Food.CaloriesPer100g : 0,
+                    IsPurchased = (s.ActivityType == "Food") ? s.Food.Price != null : false,
+                    Price = (s.ActivityType == "Food") ? ((s.Food.Price == null)? 0 : (decimal)s.Food.Price) : 0
                 }
             );
             sti = sti.OrderBy(s => s.StartTime).OrderBy(s => s.EndTime).ToList();
@@ -152,7 +158,8 @@ namespace PawsAndEars.Services
         public void Update(string stiId, Models.ScheduleTimeInterval model)
         {
             var _sti = context.ScheduleTimeIntervals.FirstOrDefault(t => t.Id == stiId);
-            var dog = context.Dogs.FirstOrDefault(d => d.Id == model.DogId && d.Name == model.DogName);
+            var user = _sti.Dog.User;
+            var dog = context.Dogs.FirstOrDefault(d => d.UserId == user.Id && d.Name == model.DogName);
 
             ScheduleTimeInterval sti = new ScheduleTimeInterval();
             switch (model.ActivityType)
